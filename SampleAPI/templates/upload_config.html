@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Config</title>
+    <!-- Include Bootstrap CSS and Select2 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Include necessary JS libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="static/css/common.css">
+
+    <style>
+        /* Common alert box styles */
+        .alert-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            padding: 20px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 5px;
+            display: none;
+            z-index: 1050; /* Ensure it appears above other content */
+        }
+
+        .alert-box.success {
+            background-color: #28a745; /* Green for success */
+        }
+
+        .alert-box.error {
+            background-color: #dc3545; /* Red for error */
+        }
+
+        .alert-box .alert-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .alert-box .alert-button {
+            display: block;
+            margin: 10px auto 0;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .alert-box .alert-button:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Modal styles */
+        .modal-dialog {
+            max-width: 30%; /* Set the modal width to 50% */
+            margin: auto; /* Center the modal horizontally */
+            display: flex;
+            align-items: center; /* Center the modal vertically */
+            min-height: calc(100% - 10rem); /* Adjust the vertical centering */
+        }
+
+        .modal-content {
+            border-radius: 0.25rem; /* Default border radius */
+        }
+
+        /* Header styles based on type */
+        .modal-header.bg-success {
+            background-color: #28a745; /* Success color */
+            color: white; /* White text */
+        }
+
+        .modal-header.bg-danger {
+            background-color: #dc3545; /* Danger color */
+            color: white; /* White text */
+        }
+    </style>
+</head>
+<body>
+
+<div id="banner">
+    <!-- Banner content -->
+    <table style="width: 100%;">
+        <tr>
+            <td class="app-logo">
+                <img src="static/images/truistlogo.png" style="width: 200px;" alt="Logo">
+            </td>
+            <td class="app-name">
+                <h1 style="font-size: 36px;">AppHealthWatch - <span style="font-size: 24px;">API Health Check Utility</span></h1>
+            </td>
+            <td class="welcome-user">
+                Welcome User
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="sidebar">
+    <div class="sidebar-menu">
+        <div class="sidebar-item">
+            <a href="/" class="sidebar-link"><span class="sidebar-icon home-icon"></span> Home</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="/upload_configuration" class="sidebar-link"><span class="sidebar-icon upload-icon"></span> Edit Configuration</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="/upload" class="sidebar-link"><span class="sidebar-icon upload-icon"></span> Upload</a>
+        </div>
+    </div>
+</div>
+
+<div id="main">
+    <div class="container">
+        <h1 class="mt-5">Upload Configuration File</h1>
+
+        <form id="upload-form" class="mt-3">
+            <div class="form-group">
+                <label for="appNameInput">Application Name:</label>
+                <select id="appNameInput" class="form-control" style="width: 100%">
+                    <!-- Options will be dynamically added via JavaScript -->
+                </select>
+            </div>
+
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="file" name="file" accept=".json" onchange="updateFileName()">
+                <label class="custom-file-label" for="file" id="file-label">Choose File</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+
+        <script>
+            function updateFileName() {
+                var input = document.getElementById('file');
+                var label = document.getElementById('file-label');
+                var fileName = input.files[0].name;
+                label.innerText = fileName;
+            }
+        </script>
+
+        <hr>
+
+        <h2 class="mt-5">Download Templates</h2>
+        <p><a href="/static/config/template/template.json" download class="btn btn-info">Download Template JSON</a></p>
+        <p><a href="#" id="downloadJson" class="btn btn-info" download>Download Most Recent JSON</a></p>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmationMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="confirmButton">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Alert Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="alertModalHeader" class="modal-header">
+                <h5 id="alertModalTitle" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="alertModalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="alertModalButton">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+         // Function to show the alert modal
+        function showAlert(message, type) {
+            var alertModal = $('#alertModal');
+            var alertModalHeader = $('#alertModalHeader');
+            var alertModalTitle = $('#alertModalTitle');
+            var alertModalMessage = $('#alertModalMessage');
+            var alertModalButton = $('#alertModalButton');
+
+            // Set the header and background color based on type
+            if (type === 'success') {
+                alertModalHeader.removeClass('bg-danger').addClass('bg-success');
+                alertModalTitle.text('Success');
+            } else if (type === 'error') {
+                alertModalHeader.removeClass('bg-success').addClass('bg-danger');
+                alertModalTitle.text('Error');
+            }
+
+            alertModalMessage.text(message);
+            alertModal.modal('show');
+
+            // Hide the modal after 5 seconds if not clicked
+            var hideTimeout = setTimeout(function() {
+                alertModal.modal('hide');
+            }, 5000);
+
+            // Hide the modal when the OK button is clicked
+            alertModalButton.on('click', function() {
+                clearTimeout(hideTimeout);
+                alertModal.modal('hide');
+            });
+        }
+
+        $(document).ready(function() {
+            // Initialize Select2 for the appNameInput
+            $.getJSON('static/config/app_config.json', function(data) {
+                var appNames = data.applications.map(function(app) {
+                    return { id: app.name.toLowerCase(), text: app.name };
+                });
+
+                $('#appNameInput').select2({
+                    data: appNames,
+                    placeholder: 'Select or type an application name',
+                    tags: true,
+                    allowClear: true,
+                    createTag: function(params) {
+                        var term = $.trim(params.term);
+                        if (term === '') {
+                            return null;
+                        }
+                        return { id: term, text: term, newTag: true };
+                    }
+                });
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error('Error loading app_config.json:', textStatus, errorThrown);
+            });
+
+            // Handle file upload form submission
+            $('#upload-form').submit(function(event) {
+                event.preventDefault();
+                var formData = new FormData();
+                formData.append('file', $('#file')[0].files[0]);
+                formData.append('appName', $('#appNameInput').val());
+
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        showAlert(response.message, 'success');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', xhr.responseText);
+                        showAlert('An error occurred. Please try again.', 'error');
+                    }
+                });
+            });
+
+            // Handle JSON download logic
+            $('#downloadJson').click(function(event) {
+                event.preventDefault();
+                var appName = $('#appNameInput').val();
+                if (!appName) {
+                    showAlert('Please provide a valid application name.', 'error');
+                    return;
+                }
+
+                var lowercaseAppName = appName.toLowerCase().replace(/\s+/g, '_');
+                var downloadUrl = 'static/config/' + lowercaseAppName + '_config_file.json';
+
+                var downloadLink = document.createElement('a');
+                downloadLink.href = downloadUrl;
+                downloadLink.download = lowercaseAppName + '_config_file.json';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            });
+        });
+    </script>
+
+</body>
+</html>

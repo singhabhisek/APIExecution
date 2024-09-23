@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<head>
+    <title>Service Checker</title>
+    <!-- Include necessary CSS and JavaScript libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+    <!-- Add any additional styling or scripts -->
+
+    <script src="static/js/common.js"></script>
+    <script src="static/js/uploadconfig.js"></script>
+    <script src="static/js/error.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+          href="static/css/common.css">
+
+</head>
+<body>
+<div id="banner">
+    <!-- Logo, application name, and welcome user label -->
+    <table style="width: 100%;">
+        <tr>
+            <td class="app-logo">
+                <!-- Logo goes here -->
+                <img src="static/images/truist.png" style="width: 200px;" alt="Logo">
+            </td>
+            <td class="app-name">
+                <!-- Application name goes here -->
+                <h1 style="font-size: 36px;">AppHealthWatch - <span style="font-size: 24px;">API Health Check Utility</span></h1>
+            </td>
+            <td class="welcome-user">
+                <!-- Welcome message with username goes here -->
+                Welcome User
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="sidebar">
+
+    <div class="sidebar-menu">
+        <!-- Sidebar menu items go here -->
+        <div class="sidebar-item">
+            <a href="/" class="sidebar-link">
+                <span class="sidebar-icon home-icon"></span> Home
+            </a>
+        </div>
+
+        <div class="sidebar-item">
+            <a href="/upload_configuration" class="sidebar-link">
+                <span class="sidebar-icon upload-icon"></span> Edit Configuration
+            </a>
+        </div>
+
+        <div class="sidebar-item">
+            <a href="/upload" class="sidebar-link">
+                <span class="sidebar-icon upload-icon"></span> Upload
+            </a>
+        </div>
+
+    </div>
+
+    <br>
+    <hr>
+    <br>
+
+    <label for="application-select">Select Application:</label>
+    <select id="app-dropdown" class="form-control">
+        <option value="">Select Application</option>
+        {% for app in app_config.applications %}
+        <option value="{{ url_for('static', filename=app.file) }}">{{ app.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="iteration-count">Iteration Count:<span class="text-white">(Max 3)</span></label>
+    <input type="number" style="width:100%;height:35px;" id="iteration-count" name="iteration-count" min="1" value="1" max="3">
+    <br>
+    <br/>
+    <div class="btn-group" role="group" style="width:100%">
+        <input type="button" id="submit-btn" value="Submit" class="btn btn-primary">
+        <input type="button" id="reset-btn" value="Reset" class="btn btn-secondary" style="margin-left: 10px;">
+    </div>
+
+    <br>
+    <br>
+    <br/>
+    <div class="panel">
+        <p>Overall Report - </p>
+
+        <div id="passed-count"><strong>Passed all:</strong> <span id="passed-count-value"></span></div>
+        <div id="failed-at-least-once-count"><strong>Failed at least one:</strong> <span
+                id="failed-at-least-once-count-value"></span></div>
+        <div id="failed-all-count"><strong>Failed all:</strong> <span id="failed-all-count-value"></span></div>
+    </div>
+</div>
+<div id="main">
+<!--    <input type="button" id="export-btn" style="position: relative; float: right; margin-top: 10px; margin-right: 10px;"-->
+<!--           value="Export to CSV" class="btn btn-secondary">-->
+
+<!--    <br>-->
+
+    <div class="btn-group" role="group" style="margin-bottom: 10px;">
+        <input type="button" id="export-btn" value="Export to CSV" class="btn btn-secondary btn-sm" disabled>
+
+        <!-- Checkboxes for including request and response -->
+        <div class="form-check form-check-inline" style="margin-left: 10px;">
+            <input class="form-check-input" type="checkbox" id="include-request" checked>
+            <label class="form-check-label" for="include-request">Include Request</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="include-response" checked>
+            <label class="form-check-label" for="include-response">Include Response</label>
+        </div>
+    </div>
+
+    <div id="loader-overlay">
+        <div class="loader"></div>
+    </div>
+    <table class="table table-striped table-bordered" id="service-table">
+        <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="select-all">
+            </th>
+            <!-- Select All checkbox -->
+            <th>Service Name</th>
+            <th>Operation Name</th>
+            <th>Status</th>
+            <th>Status Description</th>
+            <!-- New column for Status Description -->
+            <th>Description</th>
+            <th>Info</th>
+            <th style="display:none">Result</th>
+            <th style="display: none;">Request Executed</th>
+            <!-- New column for result response -->
+        </tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+        <tr>
+            <td>
+                <input type="checkbox" name="service" value="{{ service }}">
+            </td>
+            <td>{{ service }}</td>
+            <td>{{ operationName }}</td>
+            <td><img src="" style="width:15px; height:15px;" alt="Status" class="status-icon"></td>
+            <td></td>
+            <td>Description of service</td>
+            <td></td>
+            <td style="display:none"></td>
+            <td style="display:none"></td>
+            <!-- New column for result response -->
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+</div>
+<div class="container mt-5" style="width: 400px; height: 200px;">
+    <div id="confirm-box" class="hidden" style="width: 400px; height: 200px;">
+        <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="confirm-header" style="flex: 0 0 auto;">
+                <h5 class="card-title" id="confirm-header-text" style="margin-bottom: 0;"></h5>
+            </div>
+            <div class="card-body" style="flex: 1 1 auto; display: flex; align-items: center; justify-content: center;">
+                <p class="card-text confirm-message" style="text-align: center; margin: 0;"></p>
+            </div>
+            <div class="card-footer center-button" style="flex: 0 0 40px; text-align: center; padding: 5px; background-color: lightgray;">
+                <button id="ok-button" class="btn btn-primary" style="width: 100px;">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    document.getElementById('export-btn').addEventListener('click', function() {
+        var selectedColumns = [1, 2]; // Example: Exporting specified columns
+        var originalTable = $('#service-table').DataTable();
+        var rows = [];
+        var headers = [];
+
+        // Get the selected application name from the dropdown
+        var appName = $('#app-dropdown option:selected').text()
+        if (!appName) {
+            appName = 'UnknownApp'; // Fallback if no application is selected
+        }
+
+        // Get the current date and time in YYYYMMDD_HHMMSS format
+        var now = new Date();
+        var timestamp = now.getFullYear().toString() +
+            String(now.getMonth() + 1).padStart(2, '0') +
+            String(now.getDate()).padStart(2, '0') + '_' +
+            String(now.getHours()).padStart(2, '0') +
+            String(now.getMinutes()).padStart(2, '0') +
+            String(now.getSeconds()).padStart(2, '0');
+
+        // Construct the filename
+        var filename = appName + '_API_Execution_Report_' + timestamp + '.xls';
+
+        // Populate headers array
+        $('#service-table thead th').each(function(index) {
+            if (selectedColumns.includes(index)) {
+                headers.push($(this).text());
+            }
+        });
+
+        // Add additional headers for status and response
+        headers.push('Overall Status', 'Status Description');
+
+        // Checkboxes to include request and response
+        var includeRequest = $('#include-request').prop('checked');
+        var includeResponse = $('#include-response').prop('checked');
+
+        if (includeRequest) headers.push('Request');
+        if (includeResponse) headers.push('Response');
+
+        // Add the header row to the rows array (only once)
+        rows.push(headers);
+
+        // Iterate over each service in the DataTable
+        originalTable.rows().every(function() {
+            var rowData = this.data();
+            var rowNode = this.node();
+            var checkbox = $(rowNode).find('input[type="checkbox"]');
+
+            if (checkbox.prop('checked')) {
+                var newRow = selectedColumns.map(col => rowData[col]);
+
+                // Add status and description
+                var status = $(rowNode).find('td:nth-child(4)').text();
+                var statusDescription = $(rowNode).find('td:nth-child(5)').html();
+                newRow.push(status, statusDescription.replace(/\n/g, '&#10;'));
+
+                // Add request and response if selected
+                if (includeRequest) newRow.push($(rowNode).find('td:nth-child(9)').html());
+                if (includeResponse) {
+                    var responseHtml = $(rowNode).find('td:nth-child(8)').html();
+                    var encodedResponse = escapeHtml(responseHtml);
+                    newRow.push(encodedResponse);
+                }
+
+                rows.push(newRow);
+            }
+        });
+
+        // Create an HTML table with CSS formatting
+        var tableHtml = '<table style="border-collapse: collapse; width: 100%;">';
+
+        // Add the header row (bold font)
+        tableHtml += '<tr style="font-weight: bold; text-align: center;">';
+        headers.forEach(header => {
+            tableHtml += `<th style="border: 1px solid #000; width: 30ch;">${header}</th>`;
+        });
+        tableHtml += '</tr>';
+
+        // Create data rows
+        rows.slice(1).forEach((row) => { // skip the first header row in the data
+            tableHtml += '<tr>';
+            row.forEach((cell) => {
+                // Check if cell contains "Iteration"
+                var isStatusCell = cell.includes('Iteration');
+                if (isStatusCell) {
+                    // Apply bold formatting only to "Iteration N"
+                    var boldFormattedCell = applyBoldToIteration(cell);
+                    tableHtml += `<td style="border: 1px solid #000; word-wrap: break-word; width: 30ch;">${boldFormattedCell}</td>`;
+                } else {
+                    tableHtml += `<td style="border: 1px solid #000; word-wrap: break-word; width: 30ch;">${cell}</td>`;
+                }
+            });
+            tableHtml += '</tr>';
+        });
+        tableHtml += '</table>';
+
+        // Create a Blob and download the file
+        var blob = new Blob([tableHtml], {
+            type: 'application/vnd.ms-excel'
+        });
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function applyBoldToIteration(cell) {
+        // Use regex to match all "Iteration N" instances and wrap them in <b> tags
+        return cell.replace(/(Iteration \d+)/g, '<b>$1</b>')
+                   .replace(/<br\s*\/?>/g, '\n'); // Replace <br> tags with new line
+    }
+</script>
+
+
+</html>
