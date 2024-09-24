@@ -23,6 +23,38 @@
         {
             "name": "testapplication",
             "file": "static/config/testapplication_config_file.json"
+        },
+        {
+            "name": "SVTM",
+            "file": "static/config/SVTM_config_file.json"
+        },
+        {
+            "name": "SVTM1",
+            "file": "static/config/SVTM1_config_file.json"
+        },
+        {
+            "name": "App52",
+            "file": "static/config/App52_config_file.json"
+        },
+        {
+            "name": "dsfdsfsf",
+            "file": "static/config/dsfdsfsf_config_file.json"
+        },
+        {
+            "name": "cxvxc",
+            "file": "static/config/cxvxc_config_file.json"
+        },
+        {
+            "name": "xcxzc",
+            "file": "static/config/xcxzc_config_file.json"
+        },
+        {
+            "name": "xcxzcx",
+            "file": "static/config/xcxzcx_config_file.json"
+        },
+        {
+            "name": "xcxzcxs",
+            "file": "static/config/xcxzcxs_config_file.json"
         }
     ]
 }

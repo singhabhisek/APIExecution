@@ -9,8 +9,6 @@
 	 <link rel="stylesheet" href="static/css/uploadconfig.css">
 	<link rel="stylesheet" type="text/css"
           href="static/css/common.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-
 </head>
 
 <body style="width:100%">
@@ -113,10 +111,10 @@
                             <th>Operation Name</th>
                             <th>Use Case</th>
                             <th>Success Criteria</th>
-                            <th style="display:none;">Endpoint</th>
-                            <th style="display:none;">Request Location</th>
+                            <th>Endpoint</th>
+                            <th>Request Location</th>
                             <th>HTTP Method</th>
-                            <th style="display:none;">Headers</th>
+                            <th>Headers</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -128,7 +126,6 @@
             </div>
         </div>
     </div>
-
 	<!-- Modal for Editing -->
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -143,35 +140,44 @@
 					<div class="row">
 						<!-- First Column -->
 						<div class="col-md-6">
-							<form id="editForm1">
+							<form id="editForm">
 								<div class="form-group">
-									<label for="editServiceName">Service Name<span class="text-danger">*</span>
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Enter the name of the service."></i>
-									</label>
+									<label for="editServiceName">Service Name<span class="text-danger">*</span></label>
 									<input type="text" class="form-control" id="editServiceName" required tabindex="1">
 								</div>
 								<div class="form-group">
-									<label for="editEndpoint">Endpoint<span class="text-danger">*</span>
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Specify the service endpoint."></i>
-									</label>
+									<label for="editEndpoint">Endpoint<span class="text-danger">*</span></label>
 									<input type="text" class="form-control" id="editEndpoint" required tabindex="3">
 								</div>
 								<div class="form-group">
-									<label for="editUseCase">Use Case
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Describe the use case for this service."></i>
-									</label>
+									<label for="editUseCase">Use Case</label>
 									<input type="text" class="form-control" id="editUseCase" tabindex="5">
 								</div>
 								<div class="form-group">
-									<label for="editSuccessCriteria">Success Criteria<span class="text-danger">*</span>
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Define the criteria for success."></i>
-									</label>
+									<label for="editSuccessCriteria">Success Criteria<span class="text-danger">*</span></label>
 									<input type="text" class="form-control" id="editSuccessCriteria" required tabindex="7">
 								</div>
+							</form>
+						</div>
+						<!-- Second Column -->
+						<div class="col-md-6">
+							<form id="editForm">
+
 								<div class="form-group">
-									<label for="editHttpMethod">Http Method<span class="text-danger">*</span>
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Select the HTTP method for the request."></i>
-									</label>
+									<label for="editOperationName">Operation Name<span class="text-danger">*</span></label>
+									<input type="text" class="form-control" id="editOperationName" required tabindex="2">
+								</div>
+								<div class="form-group">
+									<label for="editSampleRequestLocation">Request Location<span class="text-danger">*</span></label>
+									<input type="text" class="form-control" id="editSampleRequestLocation" required tabindex="4">
+								</div>
+								<!-- Add a new textarea for sample request text -->
+								<div class="form-group">
+									<label for="editSampleRequestText">Sample Request Text</label>
+									<textarea class="form-control" id="editSampleRequestText" rows="4"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="editHttpMethod">Http Method<span class="text-danger">*</span></label>
 									<select class="form-control" id="editHttpMethod" required tabindex="6">
 										<option value="GET">GET</option>
 										<option value="POST">POST</option>
@@ -180,42 +186,16 @@
 										<!-- Add more options as needed -->
 									</select>
 								</div>
-							</form>
-						</div>
-						<!-- Second Column -->
-						<div class="col-md-6">
-							<form id="editForm2">
 								<div class="form-group">
-									<label for="editOperationName">Operation Name<span class="text-danger">*</span>
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Enter the operation name."></i>
-									</label>
-									<input type="text" class="form-control" id="editOperationName" required tabindex="2">
-								</div>
-								<div class="form-group">
-									<label for="editSampleRequestLocation">Request Location<span class="text-danger">*</span>
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Specify the request location."></i>
-									</label>
-									<input type="text" class="form-control" id="editSampleRequestLocation" required tabindex="4">
-								</div>
-								<div class="form-group">
-									<label for="editSampleRequestText">Sample Request Text
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Provide the request input here."></i>
-									</label>
-									<textarea class="form-control" id="editSampleRequestText" rows="4"></textarea>
-									<span class="text-secondary">Please paste the request input to save it as a file. Overwrites the Request Location field. So use one of them.</span>
-								</div>
-								<div class="form-group">
-									<label for="editHeaders">Headers
-										<i class="bi bi-info-circle" data-toggle="tooltip" title="Add headers in JSON format."></i>
-									</label>
-									<textarea class="form-control" id="editHeaders" rows="2" placeholder='{ "sampleKey": "sampleValue" }' tabindex="8"></textarea>
+									<label for="editHeaders">Headers</label>
+									<textarea class="form-control" id="editHeaders" rows="4" placeholder='{ "sampleKey": "sampleValue" }' tabindex="8"></textarea>
 									<span class="text-secondary">Put values in double quotes separated by comma inside curly braces. If no headers, just use empty braces { }</span>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer d-flex justify-content-center">
+				<div class="modal-footer">
 					<!-- Submit Button -->
 					<button id="saveEditBtn" type="button" class="btn btn-primary" tabindex="9">Save changes</button>
 					<!-- Close Button -->
@@ -226,104 +206,32 @@
 	</div>
 
 	<!-- Add Application Modal -->
-	<div class="modal fade" id="addApplicationModal" tabindex="-1" role="dialog" aria-labelledby="addApplicationModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="addApplicationModalLabel">Add Application</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<!-- Form to add new application -->
-					<form id="addApplicationForm">
-						<div class="form-group">
-							<label for="applicationName">Application Name:<span class="text-danger">*</span>
-								<i class="bi bi-info-circle" data-toggle="tooltip" title="Enter the name of the application."></i>
-							</label>
-							<input type="text" class="form-control" id="applicationName" required>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="saveApplicationBtn">Save</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<!-- Modal for Viewing Info -->
-	<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="infoModalLabel">Service Information</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<!-- First Column -->
-						<div class="col-md-6">
-							<form id="infoForm1">
-								<div class="form-group">
-									<label for="infoServiceName">Service Name</label>
-									<input type="text" class="form-control" id="infoServiceName" readonly>
-								</div>
-								<div class="form-group">
-									<label for="infoEndpoint">Endpoint</label>
-									<input type="text" class="form-control" id="infoEndpoint" readonly>
-								</div>
-								<div class="form-group">
-									<label for="infoUseCase">Use Case</label>
-									<input type="text" class="form-control" id="infoUseCase" readonly>
-								</div>
-								<div class="form-group">
-									<label for="infoSuccessCriteria">Success Criteria</label>
-									<input type="text" class="form-control" id="infoSuccessCriteria" readonly>
-								</div>
-								<div class="form-group">
-									<label for="infoHttpMethod">HTTP Method</label>
-									<input type="text" class="form-control" id="infoHttpMethod" readonly>
-								</div>
-							</form>
-						</div>
-						<!-- Second Column -->
-						<div class="col-md-6">
-							<form id="infoForm2">
-								<div class="form-group">
-									<label for="infoOperationName">Operation Name</label>
-									<input type="text" class="form-control" id="infoOperationName" readonly>
-								</div>
-								<div class="form-group">
-									<label for="infoRequestLocation">Request Location</label>
-									<input type="text" class="form-control" id="infoRequestLocation" readonly>
-								</div>
-								<div class="form-group">
-									<label for="infoSampleRequestText">Sample Request Text</label>
-									<textarea class="form-control" id="infoSampleRequestText" rows="4" readonly></textarea>
-								</div>
-
-								<div class="form-group">
-									<label for="infoHeaders">Headers</label>
-									<textarea class="form-control" id="infoHeaders" rows="2" readonly></textarea>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer  d-flex justify-content-center">
-					<!-- Close Button -->
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
+    <div class="modal fade" id="addApplicationModal" tabindex="-1" role="dialog" aria-labelledby="addApplicationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addApplicationModalLabel">Add Application</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to add new application -->
+                    <form id="addApplicationForm">
+                        <div class="form-group">
+                            <label for="applicationName">Application Name:<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="applicationName" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveApplicationBtn">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<!-- Add the modal markup for displaying error messages -->
 	<!-- Error Modal -->

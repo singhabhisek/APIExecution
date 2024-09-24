@@ -1,0 +1,14 @@
+{
+    "entries": [
+        {
+            "serviceName": "My dsfsdfsdf",
+            "operationName": "dsfsdf",
+            "useCase": "dsffds",
+            "successCriteria": "dfs",
+            "endpoint": "sad",
+            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder4_Request.txt",
+            "httpMethod": "GET",
+            "headers": {}
+        }
+    ]
+}

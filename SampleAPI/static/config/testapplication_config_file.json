@@ -51,7 +51,7 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "author",
             "endpoint": "https://thetestrequest.com/authors.xml",
-            "sampleRequestLocation": "",
+            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder4_Request.txt",
             "httpMethod": "GET",
             "headers": {
                 "sample": "Ads"
@@ -63,8 +63,8 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/5",
-            "sampleRequestLocation": "OrderProcessing_PlaceOrder5_Request.txt",
-            "httpMethod": null,
+            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder5_Request.txt",
+            "httpMethod": "GET",
             "headers": {
                 "Header5": "",
                 "Header6": "",
@@ -108,13 +108,13 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/9",
-            "sampleRequestLocation": "",
-            "httpMethod": "",
+            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder9_Request.txt",
+            "httpMethod": "POST",
             "headers": {
-                "customerId": "",
-                "apiKey": "",
                 "Header5": "",
-                "Header6": ""
+                "Header6": "",
+                "apiKey": "",
+                "customerId": ""
             }
         },
         {
@@ -123,13 +123,13 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/10",
-            "sampleRequestLocation": "",
-            "httpMethod": "",
+            "sampleRequestLocation": "static/ddfd/OrderProcessing_PlaceOrder4_Request.txt",
+            "httpMethod": "GET",
             "headers": {
-                "customerId": "",
-                "apiKey": "",
                 "Header5": "",
-                "Header6": ""
+                "Header6": "",
+                "apiKey": "",
+                "customerId": ""
             }
         },
         {
