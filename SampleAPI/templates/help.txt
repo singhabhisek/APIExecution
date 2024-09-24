@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppHealthWatch - API Health Check Utility</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        .content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        ol {
+            margin: 20px 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .sub-list {
+            margin-left: 20px;
+        }
+        .feature-section {
+            margin: 20px 0;
+        }
+        .panel {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .panel-header {
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .results-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .results-button:hover {
+            background-color: #0056b3;
+        }
+        .search-bar {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>AppHealthWatch - API Health Check Utility</h1>
+        <p>Welcome to AppHealthWatch, a comprehensive tool for monitoring and verifying the health of your APIs by executing tests on multiple services and operations. This guide will help you understand how to use the tool and its features to ensure your APIs are performing as expected.</p>
+
+        <h2>1. Home Screen Overview</h2>
+        <p>When you log into AppHealthWatch, you will be presented with a dashboard showing a list of services and operations available for testing. This table provides details for each service along with the most recent test statuses.</p>
+
+        <h2>2. Key Features and Functionalities</h2>
+        <div class="feature-section">
+            <h3>A. Left Panel</h3>
+            <div class="panel">
+                <div class="panel-header">Home (Status Indicator)</div>
+                <ul class="sub-list">
+                    <li>Green Indicator: The system is online and fully operational.</li>
+                    <li>Red/Amber Indicator: Indicates partial failures or system issues.</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Edit Configuration</div>
+                <ul class="sub-list">
+                    <li>Modify the current configuration settings for services and operations under test.</li>
+                    <li>Upload: Upload new configuration files or sample requests for testing.</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Select Application (Dropdown)</div>
+                <ul class="sub-list">
+                    <li>Description: Choose the target application from the dropdown. The selected application determines which API service you will be testing.</li>
+                    <li>TestApplication: An example of a pre-configured application available for testing.</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Iteration Count (Input Field)</div>
+                <ul class="sub-list">
+                    <li>Description: Define the number of test iterations (maximum 3) for each selected service.</li>
+                    <li>Usage: Specify how many times you want to run the test for each service to ensure consistent results across multiple runs.</li>
+                    <li>Submit Button: Click this to start the testing process. All selected services will be executed according to the iteration count.</li>
+                    <li>Reset Button: Clears your current selections and resets the iteration count.</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Overall Report</div>
+                <ul class="sub-list">
+                    <li>Passed all: Indicates the number of services that passed all test iterations.</li>
+                    <li>Failed at least one: Shows how many services failed at least one iteration.</li>
+                    <li>Failed all: Displays the number of services that failed every iteration.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-section">
+            <h3>B. Right Panel (Test Results Table)</h3>
+            <div class="panel">
+                <div class="panel-header">Export to CSV</div>
+                <ul class="sub-list">
+                    <li>This button allows you to export the test results to an Excel-compatible CSV file for further analysis.</li>
+                    <li>Include Request: Check this option to include the raw request details in the exported file.</li>
+                    <li>Include Response: Check this option to include the raw response details in the exported file.</li>
+                    <li>Show (Dropdown): Use this to adjust how many services or operations are displayed at once in the results table.</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Service Table Columns</div>
+                <ul class="sub-list">
+                    <li>Select Checkbox: Select the services you want to test. You can choose one or multiple services at a time.</li>
+                    <li>Service Name: Name of the API service being tested (e.g., UserVerification, OrderProcessing).</li>
+                    <li>Operation Name: Specific API operation being tested (e.g., ValidateUser, PlaceOrder4).</li>
+                    <li>Status Indicator: Visual indicator of the test status:</li>
+                    <ul>
+                        <li>Green (Passed): All iterations passed successfully.</li>
+                        <li>Yellow (Partial): Some iterations failed, while others passed.</li>
+                        <li>Red (Failed): All iterations failed.</li>
+                    </ul>
+                    <li>Status Description: Displays details about the test results, including error codes or specific statuses (e.g., 500 - Internal Server Error, 200 - Business Exception).</li>
+                    <li>Description: A short description of the API service or use case being tested.</li>
+                    <li>Info (Results Button): After executing tests, click this button to open a modal window that shows detailed test results, including:</li>
+                    <ul>
+                        <li>Response Details: View the actual response for each iteration.</li>
+                        <li>Elapsed Time: Shows how long each iteration took to execute.</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h3>C. Search Bar</h3>
+            <p>Use the search bar at the top of the results table to filter services by name, operation, or status.</p>
+        </div>
+
+        <h2>3. Step-by-Step Execution Guide</h2>
+        <h3>A. Selecting Services and Configuring Test Execution</h3>
+        <ul>
+            <li>Select Application: Use the Select Application dropdown to choose the target API service (e.g., TestApplication).</li>
+            <li>Select Services:</li>
+            <ul>
+                <li>In the table, you can select one or multiple services to test by clicking the checkboxes next to each service name.</li>
+                <li>If you want to test all services, select all checkboxes in the table.</li>
+            </ul>
+            <li>Set Iteration Count:</li>
+            <ul>
+                <li>Enter the number of iterations (1, 2, or 3) in the Iteration Count field.</li>
+                <li>This defines how many times each selected service will be tested to ensure consistent results.</li>
+            </ul>
+            <li>Submit Test: Once your services and iteration count are selected, click the Submit button to start the test execution process.</li>
+            <li>Monitor Test Execution: The system will execute the tests and update the status indicators in the table as each test completes.</li>
+        </ul>
+
+        <h3>B. Viewing Detailed Results</h3>
+        <ul>
+            <li>Post Execution: After the tests are completed, check the status indicators:</li>
+            <ul>
+                <li>Green: All tests passed.</li>
+                <li>Yellow: Some tests failed.</li>
+                <li>Red: All tests failed.</li>
+            </ul>
+            <li>View Detailed Results:</li>
+            <ul>
+                <li>Click the Info (Results Button) next to a service to open a modal window.</li>
+                <li>In the modal, you will see:</li>
+                <ul>
+                    <li>Actual Responses: The full response for each iteration.</li>
+                    <li>Execution Time: How long each iteration took to execute.</li>
+                </ul>
+                <li>This provides a detailed view of each service's performance and can help you troubleshoot issues.</li>
+            </ul>
+        </ul>
+
+        <h3>C. Exporting Test Results</h3>
+        <ul>
+            <li>Export to CSV: After tests are complete, click the Export to CSV button to download the test results.</li>
+            <li>Include Request/Response:</li>
+            <ul>
+                <li>You can choose to include the raw Request and Response details in the exported CSV file by checking the corresponding boxes.</li>
+            </ul>
+            <li>Analyze the Results: Use the exported CSV file for further analysis, sharing with your team, or archiving the test results.</li>
+        </ul>
+
+        <h2>4. Test Logic Overview</h2>
+        <p>The execution follows these steps:</p>
+        <ul>
+            <li>Iteration Count: Defines how many times a service will be tested (maximum of 3 iterations).</li>
+            <li>Sample Request Handling: For each service, a predefined sample request (in XML/JSON) is sent to the API endpoint.</li>
+            <li>Response Parsing: Each response is parsed, and the test results (status codes, response body, etc.) are displayed.</li>
+            <li>Delay Between Iterations: A delay may be applied between test iterations to avoid overwhelming the API services.</li>
+            <li>Error Handling: If a service fails (e.g., connection timeout or HTTP 500 error), the tool records the failure and moves to the next iteration or service.</li>
+        </ul>
+
+        <h2>5. Test Result Interpretation</h2>
+        <ul>
+            <li>Green Status (PASS): All iterations passed successfully.</li>
+            <li>Yellow Status (PARTIAL): Some iterations failed, but others succeeded.</li>
+            <li>Red Status (FAIL): All iterations failed. The error codes (e.g., 500 - Internal Server Error) will be displayed in the Status Description column.</li>
+        </ul>
+        <p>By following this guide, you can efficiently execute API tests, analyze the results, and ensure that your services are healthy and performing as expected.</p>
+    </div>
+</body>
+</html>
