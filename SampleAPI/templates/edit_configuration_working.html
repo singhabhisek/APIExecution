@@ -1,10 +1,61 @@
-{% extends "base.html" %} {% block title %}Dashboard{% endblock %}
-<meta charset="UTF-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NFR Portal</title>
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
+<head>
+	<meta charset="UTF-8">
+	<title>Config Data Table</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="static/css/uploadconfig.css">
+	<link rel="stylesheet" type="text/css"
+          href="static/css/common.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+</head>
+
+<body style="width:100%">
+
+<div id="banner">
+    <!-- Logo, application name, and welcome user label -->
+    <table style="width: 100%;">
+        <tr>
+            <td class="app-logo">
+                <!-- Logo goes here -->
+                <img src="static/images/truistlogo.png" style="width: 200px;" alt="Logo">
+            </td>
+            <td class="app-name">
+                <!-- Application name goes here -->
+                <h1 style="font-size: 36px;">AppHealthWatch - <span style="font-size: 24px;">API Health Check Utility</span></h1>
+            </td>
+            <td class="welcome-user">
+                <!-- Welcome message with username goes here -->
+                Welcome User
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="sidebar">
+    <div class="sidebar-menu">
+        <!-- Sidebar menu items go here -->
+        <div class="sidebar-item">
+            <a href="/" class="sidebar-link">
+                <span class="sidebar-icon home-icon"></span> Home
+            </a>
+        </div>
+
+        <div class="sidebar-item">
+            <a href="/upload_configuration" class="sidebar-link">
+                <span class="sidebar-icon upload-icon"></span> Edit Configuration
+            </a>
+        </div>
+
+        <div class="sidebar-item">
+            <a href="/upload" class="sidebar-link">
+                <span class="sidebar-icon upload-icon"></span> Upload
+            </a>
+        </div>
+    </div>
+</div>
 <div id="main">
 
         <div class="panel panel-default" style="padding-top: 20px;">
@@ -346,4 +397,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="static/js/editConfiguration.js"></script>
 
-{% endblock %}
+
+</body>
+
+</html>

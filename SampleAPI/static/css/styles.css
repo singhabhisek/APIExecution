@@ -1,0 +1,705 @@
+/* General body styles */
+body {
+    font-family: Calibri, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+/* Container styles */
+.custom-container {
+    overflow: auto;
+}
+
+/* Main content styles */
+.custom-main-container {
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* General container styles */
+.custom-main-container .container {
+    /*margin-left: 6% !important;
+    padding: 2%;
+    width:100% !important;
+    box-sizing: border-box;*/
+}
+
+/* General container styles */
+.container1 {
+    margin-left: 7% !important;
+    width:90% !important;
+    box-sizing: border-box;
+}
+
+/* Form styles */
+form {
+    margin-bottom: 20px;
+}
+
+/* Heading styles */
+h1,
+h2 {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Button styles */
+.btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+/* List styles */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Flash message styles */
+.flashes li.success {
+    color: green;
+    font-size: 0.9rem;
+}
+
+.flashes li.warning {
+    color: orange;
+    font-size: 0.9rem;
+}
+
+.flashes li.danger {
+    color: red;
+    font-size: 0.9rem;
+}
+
+/* Card styles */
+.card-body {
+    font-size: 0.9rem;
+}
+
+.card-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Table styles */
+table {
+    border: 0px solid #ccc;
+    border-collapse: collapse;
+    background-color: #fff;
+    width: 100%; /* Ensures tables take full width */
+}
+
+table th {
+    background-color: #0d6efd;
+    color: #333;
+    font-weight: bold;
+    padding: 8px;
+}
+
+table th,
+table td {
+    padding: 8px; /* Ensures consistent padding */
+    border: 1px solid #ccc;
+    text-align: left; /* Aligns text to the left by default */
+}
+
+/* Add hover effect to table rows */
+table tr:hover {
+    background-color: #f2f2f2; /* Light gray background on hover */
+}
+
+/* Sidebar styles */
+#sidebar {
+    position: fixed;
+    top: 80px; /* Start below the banner */
+    left: 0;
+    height: calc(100% - 80px); /* Adjust height to account for the banner */
+    width: 200px;
+    background-color: #e6e6e6;
+    color: white;
+    padding-top: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Allow sidebar to scroll if content exceeds viewport height */
+    z-index: 1000; /* Ensure sidebar stays on top */
+}
+
+/* Sidebar link styles */
+#sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+    color: black;
+    display: block;
+}
+
+#sidebar a:hover {
+    color: #818181;
+}
+
+.submenu {
+    display: none; /* Initially hide submenu */
+    padding-left: 20px; /* Indent submenu items */
+}
+
+.submenu a {
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+}
+
+.submenu a:hover {
+    background-color: #495057; /* Darker shade on hover */
+}
+
+/* Banner styles */
+.banner-style {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    background: linear-gradient(169deg, rgba(21, 1, 42, 1) 45%, rgba(147, 9, 232, 1) 100%);
+    color: white;
+    height: 80px; /* Fixed height for the banner */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000; /* Ensure banner stays on top */
+    padding: 0 20px;
+}
+
+/* Content area styles */
+#content {
+    margin-left: 100px; /* Same width as sidebar */
+    margin-top: 80px; /* Same height as the banner */
+    padding: 20px;
+    overflow: auto; /* Ensure content scrolls properly */
+}
+
+/* Logo styles */
+.logo-style {
+    vertical-align: middle;
+    width: 150px;
+    height: auto;
+}
+
+/* Highlight difference styles */
+.highlight-difference {
+    background-color: #f8d7da;
+}
+
+/* Select2 styles */
+.select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: 36px; /* Match the input height */
+}
+
+.select2-container .select2-selection--single .select2-selection__placeholder {
+    color: #999; /* Placeholder color */
+}
+
+.select2-container .select2-selection--single {
+    height: 36px; /* Adjust to match input */
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px; /* Adjust to match input */
+}
+
+/* DataTables styles */
+#comparisonTable_wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#comparisonTable thead th {
+    text-align: center; /* Align headers */
+}
+
+#comparisonTable tbody td {
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+#comparisonTable th,
+#comparisonTable td {
+    padding: 8px 10px; /* Add padding for better visibility */
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0.5em; /* Space between filter input and label */
+}
+
+/* Button group styles */
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.button-group .btn {
+    flex: 1;
+    max-width: 200px; /* Optional: set a max width */
+    margin: 0 5px; /* Add space between buttons */
+}
+
+/* DataTables button styles */
+div.dt-buttons {
+    float: right;
+    margin: 0 5px;
+}
+
+/* Custom autocomplete styles */
+.custom-autocomplete .ui-menu-item-wrapper {
+    font-size: 0.9rem; /* Change this to your desired font size */
+}
+
+.custom-autocomplete {
+    font-size: 8px; /* Change this to your desired font size */
+    font-family: monospace;
+}
+
+/* Hover text styles */
+.hover-text {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+/*
+.fa-info-circle:hover + .backend-details {
+    display: block;
+}
+
+.fa-info-circle {
+    cursor: pointer;
+}
+
+.backend-details {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 200px;
+    white-space: pre-wrap;
+}
+
+.fas:hover .hover-text {
+    display: block;
+}
+*/
+
+.backend-details {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 200px;
+    white-space: pre-wrap;
+}
+.fas:hover .hover-text {
+    display: block;
+}
+
+.fa-info-circle:hover + .backend-details {
+    display: block;
+}
+
+.fa-info-circle {
+    position: relative; /* Ensure parent for absolute positioning */
+    cursor: pointer;
+}
+/* Loader CSS */
+.loader {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #3cba54;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+    display: none; /* Initially hidden */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.login-container {
+    max-width: 600px;
+    margin: 100px auto; /* Center the container */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.login-form {
+    padding: 20px;
+}
+.login-image {
+    max-width: 100%;
+    height: auto;
+}
+
+
+
+
+
+  /* Reduce padding in table cells for a compact DataTable */
+.dataTable tr th,
+.dataTable tr td {
+    padding: 4px 8px; /* Adjust padding to reduce row height */
+    font-size: 0.875rem; /* Optional: smaller font size for compact display */
+    line-height: 1.2; /* Adjust line height */
+}
+
+/* Optional: Reduce height of the table header row */
+.dataTable thead th {
+    padding: 4px 8px;
+    font-size: 0.875rem; /* Make the header font size smaller to match */
+    line-height: 1.2;
+}
+
+/* Optional: Reduce the height of the table rows */
+.dataTable tr {
+    height: 28px; /* Adjust the height to your preference */
+}
+
+/* Optional: Adjust DataTable wrapper for a more compact view */
+.dataTables_wrapper .dataTables_paginate,
+.dataTables_wrapper .dataTables_info {
+    font-size: 0.875rem; /* Smaller font size for pagination and info */
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    height: calc(1.5rem + 2px); /* Adjust the height of filter and length dropdown */
+    font-size: 0.875rem; /* Match the font size with table */
+    padding: 0.25rem 0.5rem; /* Adjust padding */
+}
+
+  /* Ensure the label floats correctly with Select2 */
+.form-floating > .select2-container--default .select2-selection--single {
+    height: calc(3.5rem + 2px); /* Adjust height to match input field */
+    padding-top: 1.625rem; /* Space for the floating label */
+    padding-left: 0.25rem; /* Add padding to align with label */
+}
+
+.form-floating > .select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: medium;
+    line-height: 1.5; /* Match the line height with the input */
+}
+
+.form-floating > .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: calc(3.5rem + 2px); /* Align arrow with field */
+}
+
+.form-floating > .select2-container--default .select2-selection--single .select2-selection__placeholder {
+    margin-top: 0.625rem; /* Align placeholder text */
+}
+
+
+/* Custom CSS for purple variant */
+    .card-header, .modal-header, .btn-primary, .custom-button {
+        background-color: #6f42c1; /* Purple background */
+        color: #fff; /* White text color */
+    }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Dark gray background */
+        color: #fff; /* White text color */
+    }
+
+    .card {
+        border: 1px solid #6f42c1; /* Purple border */
+    }
+
+    .table-bordered th, .table-bordered td {
+        border-color: #6f42c1; /* Purple border for table */
+    }
+
+    .modal-content {
+        border: 1px solid #6f42c1; /* Purple border for modals */
+    }
+
+    /* Custom CSS for table */
+    .table-bordered {
+        border-color: #6f42c1; /* Purple border */
+    }
+
+    .table-bordered th, .table-bordered td {
+        border-color: #6f42c1; /* Purple border */
+    }
+
+    .table thead th {
+        background-color: #9c6cc1; /* Light purple for header row */
+        color: #fff; /* White text color */
+    }
+
+    .table tbody tr:nth-child(odd) {
+        background-color: #f3e5f5; /* Lightest purple for odd rows */
+    }
+
+    .table tbody tr:hover {
+        background-color: #e2d8e6; /* Gray on hovering */
+    }
+
+</style>
+<style>
+    /* Custom CSS for sidebar */
+    .sidebar {
+        background-color: #9c6cc1; /* Light purple background */
+        color: #fff; /* White text color */
+        padding-top: 20px;
+        min-height: 100vh; /* Full height of viewport */
+    }
+
+    .sidebar a {
+        color: #fff; /* White text color for links */
+    }
+
+    .sidebar a:hover {
+        color: #f8f9fa; /* Light gray for link hover */
+        text-decoration: none; /* Remove underline */
+    }
+
+    .sidebar .active {
+        background-color: #6f42c1; /* Purple background for active link */
+    }
+</style>
+  <style>
+
+        /* Custom styles for the chat popup and icon */
+        #nfrPopup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            z-index: 1000;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 300px;
+            min-height: 200px; /* Adjusted minimum height */
+            padding: 15px;
+        }
+
+        #nfrPopup.show {
+            display: block;
+        }
+
+        #nfrPopup .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        #nfrToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            font-size: 20px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #nfrToggleBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #nfrToggleBtn:focus {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #nfrContent {
+            margin-top: 10px;
+            height: calc(100% - 45px); /* Adjusted content height */
+            overflow-y: auto; /* Enable scroll if content exceeds height */
+        }
+
+        #nfrContent form {
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+ /* Ensure the Select2 container is positioned properly */
+.select2-container--default .select2-selection--single {
+    height: 50px !important; /* Adjust the height of the select box */
+    line-height: 32px !important; /* Align text vertically */
+    padding: 0 !important; /* Remove default padding */
+    border-radius: 4px; /* Optional: Adjust border-radius */
+    border: 1px solid #ced4da; /* Optional: Adjust border color */
+}
+
+/* Center the arrow in the Select2 container */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100% !important; /* Full height of the container */
+    top: 0; /* Align with top */
+    right: 0; /* Align with right */
+    display: flex;
+    align-items: center; /* Center arrow vertically */
+    justify-content: center; /* Center arrow horizontally */
+}
+
+/* Adjust the dropdown appearance */
+.select2-container--default .select2-results__options {
+    max-height: 150px !important; /* Adjust the max-height of the dropdown */
+    overflow-y: auto !important; /* Add scroll if the content exceeds max-height */
+    padding: 0 !important; /* Remove default padding */
+}
+
+/* Ensure dropdown items fit within the dropdown */
+.select2-container--default .select2-results__option {
+    line-height: 24px !important; /* Adjust line-height for compact items */
+    padding: 4px 8px !important; /* Adjust padding for each option */
+}
+
+/* Adjust the search box inside the dropdown */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    height: 24px !important; /* Adjust the height of the search input */
+    padding: 4px 8px !important; /* Adjust padding */
+}
+
+/* Optional: Adjust the floating label styling */
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+    color: #aaa;
+}
+
+.floating-label.active {
+    top: -0.75rem;
+    left: 0.5rem;
+    font-size: 0.75rem;
+    color: #495057;
+}
+
+
+
+/*ADDED NOW*/
+
+/* Apply a smaller font size to the Select2 container */
+.select2-container .select2-selection--single {
+    font-size: 12px; /* Change this value to your desired font size */
+}
+
+/* Apply a smaller font size to the dropdown options */
+.select2-dropdown .select2-results__option {
+    font-size: 12px; /* Change this value to your desired font size */
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    font-size: 12px !important; /* Adjust this value to your desired font size */
+}
+
+/* General DataTable Styling */
+.custom-table.dataTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.custom-table.dataTable thead th {
+    background-color: #4CAF50; /* Green background for headers */
+    color: white; /* White text color */
+    padding: 10px; /* Padding around text */
+    text-align: center; /* Left-align text */
+}
+
+.custom-table.dataTable tbody tr:nth-child(even) td {
+    background-color: #f2f2f2 !important; /* Light grey background for even rows */
+}
+.custom-table.dataTable tbody tr:nth-child(odd) td{
+    background-color: #ffffff !important; /* White for odd rows */
+}
+
+.custom-table.dataTable tbody tr:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+.custom-table.dataTable td, .custom-table.dataTable th {
+    border: 1px solid #ddd; /* Light grey border around cells */
+    padding: 8px; /* Padding inside cells */
+}
+
+
+.custom-table.dataTable td:last-child {
+    text-align: center;
+}
+
+
+/* Pagination Controls */
+.custom-table_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.custom-table_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #ddd;
+}
+
+/* Search Input */
+.custom-table_wrapper .dataTables_filter input {
+    margin: 0;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Info Section */
+.custom-table_wrapper .dataTables_info {
+    margin: 10px 0;
+}
+
+/* Length Select */
+.custom-table_wrapper .dataTables_length select {
+    margin: 0;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

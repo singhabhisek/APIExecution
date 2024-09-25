@@ -1,13 +1,17 @@
-{% extends "base.html" %} {% block title %}Dashboard{% endblock %}
-<meta charset="UTF-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NFR Portal</title>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Config</title>
+    <!-- Include Bootstrap CSS and Select2 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
-{% block content %}
+    <!-- Include necessary JS libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-
-<div id="main">
-
+    <link rel="stylesheet" type="text/css" href="static/css/common.css">
 
     <style>
         /* Common alert box styles */
@@ -78,7 +82,41 @@
             color: white; /* White text */
         }
     </style>
+</head>
+<body>
 
+<div id="banner">
+    <!-- Banner content -->
+    <table style="width: 100%;">
+        <tr>
+            <td class="app-logo">
+                <img src="static/images/truistlogo.png" style="width: 200px;" alt="Logo">
+            </td>
+            <td class="app-name">
+                <h1 style="font-size: 36px;">AppHealthWatch - <span style="font-size: 24px;">API Health Check Utility</span></h1>
+            </td>
+            <td class="welcome-user">
+                Welcome User
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="sidebar">
+    <div class="sidebar-menu">
+        <div class="sidebar-item">
+            <a href="/" class="sidebar-link"><span class="sidebar-icon home-icon"></span> Home</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="/upload_configuration" class="sidebar-link"><span class="sidebar-icon upload-icon"></span> Edit Configuration</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="/upload" class="sidebar-link"><span class="sidebar-icon upload-icon"></span> Upload</a>
+        </div>
+    </div>
+</div>
+
+<div id="main">
     <div class="container">
         <h1 class="mt-5">Upload Configuration File</h1>
 
@@ -256,5 +294,5 @@
         });
     </script>
 
-
-{% endblock %}
+</body>
+</html>
