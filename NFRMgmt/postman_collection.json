@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "0f8130d3-b3b0-410a-a261-aae1e013f011",
+		"name": "Sample Collection",
+		"description": "A sample Postman collection with various request types",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38107747"
+	},
+	"item": [
+		{
+			"name": "Simple GET Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/simple-get",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"simple-get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with JSON Body and Auth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer YOUR_TOKEN_HERE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"key1\":\"value1\",\"key2\":\"value2\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.example.com/post-json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"post-json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Request with Query Parameters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.example.com/get-with-query?param1=value1&param2=value2",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"get-with-query"
+					],
+					"query": [
+						{
+							"key": "param1",
+							"value": "value1"
+						},
+						{
+							"key": "param2",
+							"value": "value2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with JSON Body",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer YOUR_TOKEN_HERE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"key1\":\"value1\",\"key2\":\"value2\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.example.com/post-json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"post-json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with SOAP Body",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "urn:yourSoapAction"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://www.example.com/webservices/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <web:YourRequest>\n         <web:Parameter1>Value1</web:Parameter1>\n         <web:Parameter2>Value2</web:Parameter2>\n      </web:YourRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
+				},
+				"url": {
+					"raw": "https://api.example.com/post-soap",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"post-soap"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with JSON Body and Auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "test123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer YOUR_TOKEN_HERE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"key1\":\"value1\",\"key2\":\"value2\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.example.com/post-json?Test=1256",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"post-json"
+					],
+					"query": [
+						{
+							"key": "Test",
+							"value": "1256"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Request with Headers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer YOUR_TOKEN_HERE"
+					}
+				],
+				"url": {
+					"raw": "https://api.example.com/get-with-headers",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"get-with-headers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

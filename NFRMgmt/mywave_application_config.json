@@ -1,0 +1,172 @@
+{
+    "entries": [
+        {
+            "serviceName": "GET Acct Details",
+            "operationName": "GET Acct Details",
+            "useCase": "Description of Use Case for GET Acct Details",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/service1?param1=value1",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        },
+        {
+            "serviceName": "POST Service1",
+            "operationName": "POST Service1",
+            "useCase": "Description of Use Case for POST Service1",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/service1",
+            "sampleRequestLocation": "static/request2.txt",
+            "sampleRequestText": "{\\\"key1\\\":\\\"value1\\\", \\\"key2\\\":\\\"value2\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        {
+            "serviceName": "PUT Request with XML Body",
+            "operationName": "PUT Request with XML Body",
+            "useCase": "Description of Use Case for PUT Request with XML Body",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/users/123",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "<user><id>123</id><name>Updated Name</name></user>",
+            "httpMethod": "PUT",
+            "headers": {
+                "Content-Type": "application/xml"
+            }
+        },
+        {
+            "serviceName": "POST Request with Bearer Token",
+            "operationName": "POST Request with Bearer Token",
+            "useCase": "Description of Use Case for POST Request with Bearer Token",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/articles",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "{\\\"title\\\": \\\"New Article\\\", \\\"content\\\": \\\"This is the content of the new article\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        {
+            "serviceName": "GET Service2",
+            "operationName": "GET Service2",
+            "useCase": "Description of Use Case for GET Service2",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/service2?paramA=valueA",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        },
+        {
+            "serviceName": "POST Service2",
+            "operationName": "POST Service2",
+            "useCase": "Description of Use Case for POST Service2",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/service2",
+            "sampleRequestLocation": "static/request2.txt",
+            "sampleRequestText": "<request><key1>value1</key1><key2>value2</key2></request>",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/xml"
+            }
+        },
+        {
+            "serviceName": "POST Request with JSON Body",
+            "operationName": "POST Request with JSON Body",
+            "useCase": "Description of Use Case for POST Request with JSON Body",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/register",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "{\\\"username\\\": \\\"newuser\\\", \\\"email\\\": \\\"newuser@example.com\\\", \\\"password\\\": \\\"password123\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        {
+            "serviceName": "GET Service1",
+            "operationName": "GET Service1",
+            "useCase": "Description of Use Case for GET Service1",
+            "successCriteria": "order",
+            "endpoint": "https://api.anotherexample.com/service1?param=value1",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        },
+        {
+            "serviceName": "POST Service1",
+            "operationName": "POST Service1",
+            "useCase": "Description of Use Case for POST Service1",
+            "successCriteria": "order",
+            "endpoint": "https://api.anotherexample.com/service1",
+            "sampleRequestLocation": "static/request2.txt",
+            "sampleRequestText": "{\\\"param\\\":\\\"value1\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        {
+            "serviceName": "GET Service3",
+            "operationName": "GET Service3",
+            "useCase": "Description of Use Case for GET Service3",
+            "successCriteria": "order",
+            "endpoint": "https://api.anotherexample.com/service3?param=value3",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        },
+        {
+            "serviceName": "GET Service2",
+            "operationName": "GET Service2",
+            "useCase": "Description of Use Case for GET Service2",
+            "successCriteria": "order",
+            "endpoint": "https://api.differentexample.com/service2?param=value2",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        },
+        {
+            "serviceName": "POST Service2",
+            "operationName": "POST Service2",
+            "useCase": "Description of Use Case for POST Service2",
+            "successCriteria": "order",
+            "endpoint": "https://api.differentexample.com/service2",
+            "sampleRequestLocation": "static/request2.txt",
+            "sampleRequestText": "{\\\"param\\\":\\\"value2\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        {
+            "serviceName": "GET Service3",
+            "operationName": "GET Service3",
+            "useCase": "Description of Use Case for GET Service3",
+            "successCriteria": "order",
+            "endpoint": "https://api.differentexample.com/service3?param=value3",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        },
+        {
+            "serviceName": "GET Request with Query Params",
+            "operationName": "GET Request with Query Params",
+            "useCase": "Description of Use Case for GET Request with Query Params",
+            "successCriteria": "order",
+            "endpoint": "https://api.example.com/users?status=active&limit=10",
+            "sampleRequestLocation": "static/request1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {}
+        }
+    ]
+}

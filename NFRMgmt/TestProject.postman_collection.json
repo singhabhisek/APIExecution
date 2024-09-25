@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "87d385b4-b388-492e-8f9a-611779a9dba2",
+		"name": "TestProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38107747"
+	},
+	"item": [
+		{
+			"name": "TestReq",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auths",
+						"value": "abcd",
+						"type": "text"
+					},
+					{
+						"key": "header1",
+						"value": "test1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://postman-echo.com/get?test=123",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "test",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simple GET Request",
+			"request": {
+				"method": "GET",
+				"header": [{
+						"key": "autaaahs",
+						"value": "appbcd",
+						"type": "text"
+					}],
+				"url": {
+					"raw": "https://api.example.com/simple-get",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"simple-get"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

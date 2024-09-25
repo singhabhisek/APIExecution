@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "c4cc19c4-786d-4e70-93d2-d40b5c5cc0b9",
+		"name": "Complex API Requests Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38107747"
+	},
+	"item": [
+		{
+			"name": "GET Request with Query Params",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.example.com/users?status=active&limit=10",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "active"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with JSON Body",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"newuser\", \"email\": \"newuser@example.com\", \"password\": \"password123\"}"
+				},
+				"url": {
+					"raw": "https://api.example.com/register",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Request with XML Body",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<user><id>123</id><name>Updated Name</name></user>"
+				},
+				"url": {
+					"raw": "https://api.example.com/users/123",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"users",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Request with Path Variable",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.example.com/users/123",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"users",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Request with Basic Authentication",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.example.com/admin/dashboard",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"admin",
+						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with Bearer Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "BearerTokenValue",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"New Article\", \"content\": \"This is the content of the new article\"}"
+				},
+				"url": {
+					"raw": "https://api.example.com/articles",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Request with Oauth2",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "token",
+							"value": "Oauth2AccessToken",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.example.com/profile",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Request with JSON Patch Body",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"op\": \"replace\", \"path\": \"/username\", \"value\": \"updateduser\"}]"
+				},
+				"url": {
+					"raw": "https://api.example.com/users/123",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"users",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Request with Multipart Form Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/path/to/file.jpg"
+						},
+						{
+							"key": "description",
+							"value": "Image Upload"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.example.com/upload",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Request with Custom Header",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-Custom-Header",
+						"value": "CustomValue"
+					}
+				],
+				"url": {
+					"raw": "https://api.example.com/items/567",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"items",
+						"567"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

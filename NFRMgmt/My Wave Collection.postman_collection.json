@@ -1,0 +1,480 @@
+{
+	"info": {
+		"_postman_id": "25a006b0-5562-4dc9-92f3-a3c27f658d77",
+		"name": "My Wave Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38107747"
+	},
+	"item": [
+		{
+			"name": "Wave0",
+			"item": [
+				{
+					"name": "Service1",
+					"item": [
+						{
+							"name": "GET Acct Details",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "your-username",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "your-password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.example.com/service1?param1=value1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"example",
+										"com"
+									],
+									"path": [
+										"service1"
+									],
+									"query": [
+										{
+											"key": "param1",
+											"value": "value1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Service1",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"key1\":\"value1\", \"key2\":\"value2\"}"
+								},
+								"url": {
+									"raw": "https://api.example.com/service1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"example",
+										"com"
+									],
+									"path": [
+										"service1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service2",
+					"item": [
+						{
+							"name": "Consumer",
+							"item": [
+								{
+									"name": "PUT Request with XML Body",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/xml"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "<user><id>123</id><name>Updated Name</name></user>"
+										},
+										"url": {
+											"raw": "https://api.example.com/users/123",
+											"protocol": "https",
+											"host": [
+												"api",
+												"example",
+												"com"
+											],
+											"path": [
+												"users",
+												"123"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Commercial",
+							"item": [
+								{
+									"name": "POST Request with Bearer Token",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "BearerTokenValue",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"title\": \"New Article\", \"content\": \"This is the content of the new article\"}"
+										},
+										"url": {
+											"raw": "https://api.example.com/articles",
+											"protocol": "https",
+											"host": [
+												"api",
+												"example",
+												"com"
+											],
+											"path": [
+												"articles"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "GET Service2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.example.com/service2?paramA=valueA",
+									"protocol": "https",
+									"host": [
+										"api",
+										"example",
+										"com"
+									],
+									"path": [
+										"service2"
+									],
+									"query": [
+										{
+											"key": "paramA",
+											"value": "valueA"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Service2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/xml"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<request><key1>value1</key1><key2>value2</key2></request>"
+								},
+								"url": {
+									"raw": "https://api.example.com/service2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"example",
+										"com"
+									],
+									"path": [
+										"service2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST Request with JSON Body",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"newuser\", \"email\": \"newuser@example.com\", \"password\": \"password123\"}"
+						},
+						"url": {
+							"raw": "https://api.example.com/register",
+							"protocol": "https",
+							"host": [
+								"api",
+								"example",
+								"com"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wave1",
+			"item": [
+				{
+					"name": "Service1",
+					"item": [
+						{
+							"name": "GET Service1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.anotherexample.com/service1?param=value1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"anotherexample",
+										"com"
+									],
+									"path": [
+										"service1"
+									],
+									"query": [
+										{
+											"key": "param",
+											"value": "value1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Service1",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"param\":\"value1\"}"
+								},
+								"url": {
+									"raw": "https://api.anotherexample.com/service1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"anotherexample",
+										"com"
+									],
+									"path": [
+										"service1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service3",
+					"item": [
+						{
+							"name": "GET Service3",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.anotherexample.com/service3?param=value3",
+									"protocol": "https",
+									"host": [
+										"api",
+										"anotherexample",
+										"com"
+									],
+									"path": [
+										"service3"
+									],
+									"query": [
+										{
+											"key": "param",
+											"value": "value3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wave2",
+			"item": [
+				{
+					"name": "Service2",
+					"item": [
+						{
+							"name": "GET Service2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.differentexample.com/service2?param=value2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"differentexample",
+										"com"
+									],
+									"path": [
+										"service2"
+									],
+									"query": [
+										{
+											"key": "param",
+											"value": "value2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Service2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"param\":\"value2\"}"
+								},
+								"url": {
+									"raw": "https://api.differentexample.com/service2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"differentexample",
+										"com"
+									],
+									"path": [
+										"service2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service3",
+					"item": [
+						{
+							"name": "GET Service3",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.differentexample.com/service3?param=value3",
+									"protocol": "https",
+									"host": [
+										"api",
+										"differentexample",
+										"com"
+									],
+									"path": [
+										"service3"
+									],
+									"query": [
+										{
+											"key": "param",
+											"value": "value3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GET Request with Query Params",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.example.com/users?status=active&limit=10",
+					"protocol": "https",
+					"host": [
+						"api",
+						"example",
+						"com"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "active"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
