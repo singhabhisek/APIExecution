@@ -1,0 +1,22 @@
+DELETE FROM user_access
+WHERE user_id = 123;
+
+
+DELETE FROM user_access
+WHERE user_id = 123;
+
+
+import logging
+from logging.handlers import RotatingFileHandler
+
+# Create a rotating file handler
+log_handler = RotatingFileHandler('C:\\service_execution.log', maxBytes=1000000, backupCount=5)
+log_handler.setLevel(logging.INFO)
+
+# Create a logger and attach the handler
+logger = logging.getLogger('parallel_logger')
+logger.setLevel(logging.INFO)
+logger.addHandler(log_handler)
+
+def some_function():
+    logger.info("This is a log message from a parallel task.")
