@@ -1,0 +1,188 @@
+from flask import Flask, request, render_template, send_file, redirect, url_for
+import json
+import os
+import base64
+from urllib.parse import urlparse
+
+# Create a Flask web application instance
+app = Flask(__name__)
+
+# Define folders to store uploaded and transformed files
+UPLOAD_FOLDER = 'uploads'
+TRANSFORMED_FOLDER = 'transformed'
+
+# Ensure the upload and transformed folders exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(TRANSFORMED_FOLDER, exist_ok=True)
+
+# Helper function to write sample request body to a file
+def write_sample_request_to_file(filename, content):
+    # Open the file at the given path and write the content to it
+    with open(filename, 'w') as file:
+        file.write(content)
+
+# Recursive function to process Postman items and transform them
+def process_item(item, output, request_count=1, service_name=None, request_tracker={}):
+    for sub_item in item:
+        # If the current item contains sub-items, recursively process them
+        if 'item' in sub_item:
+            # Update the service name from the current item's name
+            current_service_name = sub_item.get('name', service_name)
+            # Recursive call to process sub-items (nested requests)
+            process_item(sub_item['item'], output, request_count, service_name=current_service_name, request_tracker=request_tracker)
+        else:
+            # Extract request details such as headers, URL, and method
+            request_data = sub_item.get('request', {})
+            headers = {header['key']: header['value'] for header in request_data.get('header', [])}
+            url = request_data.get('url', {})
+            endpoint = url.get('raw', '')  # Extract the raw URL
+            method = request_data.get('method', '')  # Extract the HTTP method
+
+            # Determine service name, default to 'DefaultService' if none provided
+            final_service_name = service_name if service_name else 'DefaultService'
+            # Remove spaces from the operation name and replace them with underscores
+            final_operation_name = sub_item['name'].replace(' ', '_')
+
+            # Handle cases where the body is JSON
+            body = request_data.get('body', {})
+            if body and 'raw' in body:
+                raw_body = body['raw']
+                # Check if the body is JSON, using the language option
+                if 'options' in body and body['options'].get('raw', {}).get('language') == 'json':
+                    # Parse the URL to get its components
+                    parsed_url = urlparse(endpoint)
+                    # Split the URL path into segments
+                    path_segments = parsed_url.path.strip('/').split('/')
+                    if len(path_segments) >= 2:
+                        # Build the service name from URL segments
+                        final_service_name = f"{path_segments[0]}_{path_segments[-2]}"
+                        # Base operation name from the last two URL segments
+                        final_operation_name_base = f"{path_segments[-2]}_{path_segments[-1]}"
+                        final_operation_name = final_operation_name_base
+
+                        # Track multiple requests with the same operation name
+                        if final_operation_name_base in request_tracker:
+                            request_tracker[final_operation_name_base] += 1
+                            # Append a counter to the operation name for uniqueness
+                            final_operation_name = f"{final_operation_name_base}_{request_tracker[final_operation_name_base]}"
+                        else:
+                            # Initialize the tracker for this operation
+                            request_tracker[final_operation_name_base] = 1
+
+                # Escape body content to handle special characters like quotes, backslashes, and newlines
+                escaped_body = raw_body.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+
+            # Handle authentication, if present
+            auth = request_data.get('auth', {})
+            if auth:
+                # Handle bearer token authentication
+                if auth.get('type') == 'bearer':
+                    bearer_token_info = auth.get('bearer', [{}])
+                    token = bearer_token_info[0].get('value', '')
+                    if token:
+                        # Add bearer token to headers
+                        headers['Authorization'] = f"Bearer {token}"
+                # Handle basic authentication (username:password)
+                elif auth.get('type') == 'basic':
+                    basic_auth = auth.get('basic', [])
+                    username = ''
+                    password = ''
+                    # Extract the username and password from the auth section
+                    for cred in basic_auth:
+                        if cred.get('key') == 'username':
+                            username = cred.get('value', '')
+                        elif cred.get('key') == 'password':
+                            password = cred.get('value', '')
+                    if username and password:
+                        # Encode the credentials in Base64 format
+                        credentials = f"{username}:{password}"
+                        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+                        # Add Basic Authorization header
+                        headers['Authorization'] = f"Basic {encoded_credentials}"
+
+            # Create an entry for the "application config" format
+            sample_request_location = f"static/request{request_count}.txt"
+            entry = {
+                "serviceName": final_service_name,
+                "operationName": final_operation_name,
+                "useCase": f"Description of Use Case for {final_service_name}",
+                "successCriteria": "Success",  # Changed "SuccessCriteria" to "Success"
+                "endpoint": endpoint,
+                "sampleRequestLocation": sample_request_location,  # Filename where request body will be saved
+                "sampleRequestText": "",  # Request body content to be saved in the JSON as a string
+                "httpMethod": method,
+                "headers": headers  # Request headers including auth if present
+            }
+
+            # Check if the request has a body and set the sampleRequestText and file content
+            if body and 'raw' in body:
+                raw_body = body['raw']
+                # Write the request body to the sampleRequestLocation file
+                write_sample_request_to_file(os.path.join(TRANSFORMED_FOLDER, f"request{request_count}.txt"), raw_body)
+                # Escape the body content for safe JSON formatting
+                escaped_body = raw_body.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+                entry['sampleRequestText'] = escaped_body
+
+            # Add the entry to the output JSON structure
+            output["entries"].append(entry)
+            # Increment the request count for unique file names
+            request_count += 1
+
+# Function to transform the Postman collection into the desired output format
+def transform_postman_collection(input_file_path, output_file_path):
+    # Load the Postman collection JSON from the input file
+    with open(input_file_path, 'r') as file:
+        postman_data = json.load(file)
+
+    # Prepare the output structure
+    output = {"entries": []}
+    request_tracker = {}  # Track unique operation names for JSON requests
+
+    # Start processing the items in the Postman collection
+    process_item(postman_data.get('item', []), output, request_tracker=request_tracker)
+
+    # Write the transformed data to an output JSON file
+    with open(output_file_path, 'w') as outfile:
+        json.dump(output, outfile, indent=4)
+
+# Webpage to display the file upload form
+@app.route('/')
+def index():
+    # Renders an HTML template for the file upload page
+    return render_template('index.html')
+
+# Handle file upload and process the transformation
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    # Check if a file was uploaded in the request
+    if 'file' not in request.files:
+        return "No file part"
+
+    file = request.files['file']
+    # Check if the user selected a file
+    if file.filename == '':
+        return "No selected file"
+
+    if file:
+        # Save the uploaded file to the uploads folder
+        input_file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(input_file_path)
+
+        # Define the output file path where the transformed file will be saved
+        output_file_path = os.path.join(TRANSFORMED_FOLDER, 'transformed_' + file.filename)
+
+        # Perform the transformation on the uploaded Postman collection
+        transform_postman_collection(input_file_path, output_file_path)
+
+        # Redirect the user to the download page for the transformed file
+        return redirect(url_for('download_file', filename='transformed_' + file.filename))
+
+# Serve the transformed file to the user for download
+@app.route('/download/<filename>')
+def download_file(filename):
+    # Send the transformed file as an attachment for download
+    return send_file(os.path.join(TRANSFORMED_FOLDER, filename), as_attachment=True)
+
+# Start the Flask web application
+if __name__ == '__main__':
+    app.run(debug=True)  # Run in debug mode for development purposes
