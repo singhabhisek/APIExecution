@@ -1,0 +1,67 @@
+Step-by-Step Explanation
+Start (A):
+
+The process begins here. This is the entry point of the flowchart.
+Load Application Dropdown from app.config JSON (B):
+
+The application loads a dropdown menu populated with options from a configuration file in JSON format. This file likely contains details about various services available for the user to select.
+Fetch App Configuration from JSON file (C):
+
+The application retrieves additional configuration details from the JSON file to understand how to operate with the selected services.
+Update Data Table with Relevant Service Details (D):
+
+The application updates a data table displayed to the user with details of the services available based on the configuration loaded.
+Submit Button Click (E):
+
+The user can click the "Submit" button to proceed with the selected services. There is also an option to click the "Reset" button (F) to clear selections.
+Is Any Service Selected? (G):
+
+A decision point where the application checks if the user has selected any services.
+Yes: If a service is selected, it proceeds to fetch user role information.
+No: If no service is selected, it shows an error message prompting the user to select a service (I).
+Fetch User Role Info - Admin or Normal User (H):
+
+The application determines the user's role (Admin or Normal User) to apply specific rules and limitations.
+Check Max Operations Allowed Based on Role (J):
+
+The application checks how many services the user can operate based on their role.
+Exceeds: If the selected services exceed the maximum limit (e.g., 10 for normal users), it shows an alert (K).
+Within Limit: If the number of selected services is within the limit, it proceeds to execute the services (L).
+Execute Services in Batches of 5 Operations in Parallel (L):
+
+The application starts executing the selected services, breaking them down into batches of 5 to manage performance and reliability.
+Invoke Python Backend Code to Execute Web Services (M):
+
+The application calls a Python backend service to perform the actual execution of the web services.
+Check if All Selected Services Executed (N):
+
+After invoking the services, the application checks whether all selected services have been executed successfully.
+Yes: If all services have executed, it shows a confirmation message (O).
+No: If not all services have executed, it loops back to continue executing the remaining services (L).
+Show Alert: Max Limit of 10 Services for Normal Access (K):
+
+This alert informs users if they try to select more than the allowed number of services based on their role.
+Show Error Message: Select a Service (I):
+
+This message prompts the user to select at least one service if none is selected.
+Update Results in Table (Q):
+
+Once all services are executed successfully, the application updates the results in a table format.
+Update Counts and Enable Results Button to View Responses (Q1):
+
+The application refreshes any counts and enables a button for users to view the detailed responses of the executed services.
+Enable Excel Export Options (R):
+
+Users are given options to export the results to an Excel file.
+User Clicks Export? (S):
+
+Another decision point asking if the user wants to export the results.
+Yes: If the user clicks export, it will export the results to Excel with the selected checkboxes (T).
+No: If not, the process moves to the end (U).
+Reset All Items (V):
+
+If the user clicks the reset button, the application clears all selections, allowing the user to start over.
+End (U):
+
+This node signifies the end of the process, where no further actions will be taken.
+
