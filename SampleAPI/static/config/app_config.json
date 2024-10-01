@@ -2,7 +2,11 @@
     "applications": [
         {
             "name": "TestApplication",
-            "file": "static/config/application_config_file.json"
+            "file": "static/config/testapplication_config_file.json"
+        },
+        {
+            "name": "MyPostman",
+            "file": "static/config/mypostman_config_file.json"
         }
     ]
 }

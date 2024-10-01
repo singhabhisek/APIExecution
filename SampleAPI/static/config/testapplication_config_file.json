@@ -7,6 +7,7 @@
             "successCriteria": "user",
             "endpoint": "https://jsonplacseholder.typicode.com/posts/1",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "GET",
             "headers": {
                 "Header5": "aa",
@@ -22,6 +23,7 @@
             "successCriteria": "user",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/81",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "GET",
             "headers": {
                 "Header5": "aa",
@@ -36,7 +38,8 @@
             "useCase": "Description of Use Case for AddProduct",
             "successCriteria": "product",
             "endpoint": "https://jsonplaceholder.typicodes.com/posts/2",
-            "sampleRequestLocation": "C:\\Users\\AS\\Desktop\\abcdef\\note.xml",
+            "sampleRequestLocation": "static/requests/ProductManagement_AddProduct_Request.txt",
+            "sampleRequestText": "",
             "httpMethod": "GET",
             "headers": {
                 "Header3;xxx": "",
@@ -49,12 +52,15 @@
             "serviceName": "OrderProcessing",
             "operationName": "PlaceOrder4",
             "useCase": "Description of Use Case for PlaceOrder",
-            "successCriteria": "author",
-            "endpoint": "https://thetestrequest.com/authors.xml",
-            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder4_Request.txt",
+            "successCriteria": "orders",
+            "endpoint": "https://jsonplaceholder.typicode.com/posts/4",
+            "sampleRequestLocation": "OrderProcessing_PlaceOrder4_Request.txt",
             "httpMethod": "GET",
             "headers": {
-                "sample": "Ads"
+                "Header5": "",
+                "Header6": "",
+                "apiKey": "",
+                "customerId": ""
             }
         },
         {
@@ -63,8 +69,9 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/5",
-            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder5_Request.txt",
-            "httpMethod": "GET",
+            "sampleRequestLocation": "OrderProcessing_PlaceOrder5_Request.txt",
+            "sampleRequestText": "",
+            "httpMethod": null,
             "headers": {
                 "Header5": "",
                 "Header6": "",
@@ -79,6 +86,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/6",
             "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder6_Request.txt",
+            "sampleRequestText": "",
             "httpMethod": null,
             "headers": {
                 "Header5": "",
@@ -94,6 +102,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/7",
             "sampleRequestLocation": "OrderProcessing_PlaceOrder7_Request.txt",
+            "sampleRequestText": "",
             "httpMethod": "POST",
             "headers": {
                 "Header5": "",
@@ -108,13 +117,14 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/9",
-            "sampleRequestLocation": "static/requests/OrderProcessing_PlaceOrder9_Request.txt",
-            "httpMethod": "POST",
+            "sampleRequestLocation": "",
+            "sampleRequestText": "",
+            "httpMethod": "",
             "headers": {
-                "Header5": "",
-                "Header6": "",
+                "customerId": "",
                 "apiKey": "",
-                "customerId": ""
+                "Header5": "",
+                "Header6": ""
             }
         },
         {
@@ -123,13 +133,14 @@
             "useCase": "Description of Use Case for PlaceOrder",
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/10",
-            "sampleRequestLocation": "static/ddfd/OrderProcessing_PlaceOrder4_Request.txt",
-            "httpMethod": "GET",
+            "sampleRequestLocation": "",
+            "sampleRequestText": "",
+            "httpMethod": "",
             "headers": {
-                "Header5": "",
-                "Header6": "",
+                "customerId": "",
                 "apiKey": "",
-                "customerId": ""
+                "Header5": "",
+                "Header6": ""
             }
         },
         {
@@ -139,6 +150,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/11",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -154,6 +166,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/12",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -169,6 +182,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/13",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -184,6 +198,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/14",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -199,6 +214,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/15",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -214,6 +230,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/16",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -229,6 +246,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/17",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -244,6 +262,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/18",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -259,6 +278,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/19",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -274,6 +294,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/20",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -289,6 +310,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/21",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -304,6 +326,7 @@
             "successCriteria": "order",
             "endpoint": "https://jsonplaceholder.typicode.com/posts/22",
             "sampleRequestLocation": "",
+            "sampleRequestText": "",
             "httpMethod": "",
             "headers": {
                 "customerId": "",
@@ -319,6 +342,7 @@
             "successCriteria": "we",
             "endpoint": "ad",
             "sampleRequestLocation": "qew",
+            "sampleRequestText": "",
             "httpMethod": "GET",
             "headers": {}
         }

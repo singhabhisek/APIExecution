@@ -1,0 +1,193 @@
+{
+    "entries": [
+        {
+            "serviceName": "SERVICE1",
+            "operationName": "GET_Acct_Details",
+            "useCase": "Description of Use Case for SERVICE1",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/service1?param1=value1",
+            "sampleRequestLocation": "static/mypostman/SERVICE1/GET_Acct_Details.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic eW91ci11c2VybmFtZTp5b3VyLXBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE1",
+            "operationName": "POST_Service1",
+            "useCase": "Description of Use Case for SERVICE1",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/service1",
+            "sampleRequestLocation": "static/mypostman/SERVICE1/POST_Service1.txt",
+            "sampleRequestText": "{\\\"key1\\\":\\\"value1\\\", \\\"key2\\\":\\\"value2\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "USERS",
+            "operationName": "PUT_Request_with_XML_Body",
+            "useCase": "Description of Use Case for USERS",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/users/123",
+            "sampleRequestLocation": "static/mypostman/USERS/PUT_Request_with_XML_Body.txt",
+            "sampleRequestText": "<user><id>123</id><name>Updated Name</name></user>",
+            "httpMethod": "PUT",
+            "headers": {
+                "Content-Type": "application/xml",
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "ARTICLES",
+            "operationName": "POST_Request_with_Bearer_Token",
+            "useCase": "Description of Use Case for ARTICLES",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/articles",
+            "sampleRequestLocation": "static/mypostman/ARTICLES/POST_Request_with_Bearer_Token.txt",
+            "sampleRequestText": "{\\\"title\\\": \\\"New Article\\\", \\\"content\\\": \\\"This is the content of the new article\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer BearerTokenValue"
+            }
+        },
+        {
+            "serviceName": "SERVICE2",
+            "operationName": "GET_Service2",
+            "useCase": "Description of Use Case for SERVICE2",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/service2?paramA=valueA",
+            "sampleRequestLocation": "static/mypostman/SERVICE2/GET_Service2.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE2",
+            "operationName": "POST_Service2",
+            "useCase": "Description of Use Case for SERVICE2",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/service2",
+            "sampleRequestLocation": "static/mypostman/SERVICE2/POST_Service2.txt",
+            "sampleRequestText": "<request><key1>value1</key1><key2>value2</key2></request>",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/xml",
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "REGISTER",
+            "operationName": "POST_Request_with_JSON_Body",
+            "useCase": "Description of Use Case for REGISTER",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/register",
+            "sampleRequestLocation": "static/mypostman/REGISTER/POST_Request_with_JSON_Body.txt",
+            "sampleRequestText": "{\\\"username\\\": \\\"newuser\\\", \\\"email\\\": \\\"newuser@example.com\\\", \\\"password\\\": \\\"password123\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE1",
+            "operationName": "GET_Service1",
+            "useCase": "Description of Use Case for SERVICE1",
+            "successCriteria": "Success",
+            "endpoint": "https://api.anotherexample.com/service1?param=value1",
+            "sampleRequestLocation": "static/mypostman/SERVICE1/GET_Service1.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE1",
+            "operationName": "POST_Service1_2",
+            "useCase": "Description of Use Case for SERVICE1",
+            "successCriteria": "Success",
+            "endpoint": "https://api.anotherexample.com/service1",
+            "sampleRequestLocation": "static/mypostman/SERVICE1/POST_Service1_2.txt",
+            "sampleRequestText": "{\\\"param\\\":\\\"value1\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE3",
+            "operationName": "GET_Service3",
+            "useCase": "Description of Use Case for SERVICE3",
+            "successCriteria": "Success",
+            "endpoint": "https://api.anotherexample.com/service3?param=value3",
+            "sampleRequestLocation": "static/mypostman/SERVICE3/GET_Service3.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE2",
+            "operationName": "GET_Service2_2",
+            "useCase": "Description of Use Case for SERVICE2",
+            "successCriteria": "Success",
+            "endpoint": "https://api.differentexample.com/service2?param=value2",
+            "sampleRequestLocation": "static/mypostman/SERVICE2/GET_Service2_2.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE2",
+            "operationName": "POST_Service2_2",
+            "useCase": "Description of Use Case for SERVICE2",
+            "successCriteria": "Success",
+            "endpoint": "https://api.differentexample.com/service2",
+            "sampleRequestLocation": "static/mypostman/SERVICE2/POST_Service2_2.txt",
+            "sampleRequestText": "{\\\"param\\\":\\\"value2\\\"}",
+            "httpMethod": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "SERVICE3",
+            "operationName": "GET_Service3_2",
+            "useCase": "Description of Use Case for SERVICE3",
+            "successCriteria": "Success",
+            "endpoint": "https://api.differentexample.com/service3?param=value3",
+            "sampleRequestLocation": "static/mypostman/SERVICE3/GET_Service3_2.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        },
+        {
+            "serviceName": "USERS",
+            "operationName": "GET_Request_with_Query_Params",
+            "useCase": "Description of Use Case for USERS",
+            "successCriteria": "Success",
+            "endpoint": "https://api.example.com/users?status=active&limit=10",
+            "sampleRequestLocation": "static/mypostman/USERS/GET_Request_with_Query_Params.txt",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Authorization": "Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk"
+            }
+        }
+    ]
+}
