@@ -1,0 +1,239 @@
+
+# Ensure the folders for transformed files exist
+TRANSFORMED_FOLDER = 'static/transformed'
+os.makedirs(TRANSFORMED_FOLDER, exist_ok=True)  # Create transformed folder if it doesn't exist
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    APP_CONFIG_FILE = 'static/config/app_config.json'
+
+    if request.method == 'GET':
+        return render_template('upload_config.html', current_page='upload')
+
+    else:
+        if 'file' not in request.files:
+            log_error("No config file was provided.")
+            return jsonify({'status': 'error', 'message': 'No config file was provided.'}), 400
+
+        file = request.files['file']
+        app_name = request.form.get('appName')
+        is_postman = request.form.get('isPostman') == 'true'  # Check if Postman collection is being uploaded
+
+        if file.filename == '':
+            log_error("No selected file")
+            return jsonify({'status': 'error', 'message': 'No selected file.'}), 400
+
+        if file and allowed_file(file.filename):
+            if is_postman:
+                # Handle Postman collection transformation
+                transformed_file_path = os.path.join(TRANSFORMED_FOLDER,
+                                                     f"{app_name.lower().replace(' ', '_')}_transformed.json")
+
+                # Transform the Postman collection
+                transform_postman_collection(file, transformed_file_path, app_name.lower())
+
+                # Reuse the 'file' variable to point to the transformed file
+                with open(transformed_file_path, 'r') as transformed_file:
+                    data = json.load(transformed_file)
+
+                # Set 'file' to transformed file path (we'll save this later)
+                # file_path = transformed_file_path
+
+            else:
+                # Standard JSON upload: just load the file content
+                try:
+                    data = json.loads(file.read())
+                except json.JSONDecodeError as e:
+                    log_error(f"Invalid JSON format: {e}")
+                    return jsonify({'status': 'error', 'message': 'Invalid JSON format.'}), 400
+
+            # Set file path for regular JSON
+            file_path = os.path.join('static/config',
+                                     f"{app_name.lower().replace(' ', '_')}_config_file.json").replace('\\', '/')
+
+            # Perform validation on the JSON (whether transformed or direct)
+            is_valid_json, missing_keys = validate_json(data)
+            if is_valid_json:
+                # Update app_config.json with the new application entry
+                with open(APP_CONFIG_FILE, 'r+') as f:
+                    app_config_data = json.load(f)
+                    existing_apps = [app['name'] for app in app_config_data['applications']]
+
+                    if app_name not in existing_apps:
+                        app_config_data['applications'].append({'name': app_name, 'file': file_path})
+                        f.seek(0)
+                        json.dump(app_config_data, f, indent=4)
+                        f.truncate()  # Truncate to remove any old content
+
+                # Create a backup of the existing config file if needed
+                backup_successful = backup_config(file_path)
+                if not backup_successful:
+                    return jsonify({'status': 'error', 'message': 'Error creating backup.'}), 500
+
+                # Save the file
+                with open(file_path, 'w') as output_file:
+                    json.dump(data, output_file, indent=4)  # Write the JSON data back to the file in text mode
+
+                log_action(action="File Uploaded", url=file_path)
+
+                return jsonify({'status': 'success', 'message': 'File uploaded successfully.'}), 200
+
+            else:
+                error_message = f'Invalid JSON structure. Missing keys for operations: {missing_keys}'
+                log_error(error_message)
+                return jsonify({'status': 'error', 'message': error_message}), 400
+
+        else:
+            log_error("Invalid file format. Only JSON files are allowed.")
+            return jsonify({'status': 'error', 'message': 'Invalid file format. Only JSON files are allowed.'}), 400
+
+    return render_template('upload_config.html', current_page='upload')
+
+
+# Helper function to write the sample request body to a file
+def write_sample_request_to_file(filename, content):
+    os.makedirs(os.path.dirname(filename), exist_ok=True)  # Ensure the directory exists before writing
+    with open(filename, 'w') as file:
+        file.write(content)  # Write the content to the specified file
+
+
+# Function to extract the key resource from the URL (e.g., 'users', 'articles')
+def extract_service_name_from_url(endpoint):
+    parsed_url = urlparse(endpoint)  # Parse the URL to access its components
+    path_segments = parsed_url.path.strip('/').split('/')  # Split the path into segments
+    if len(path_segments) > 0:
+        return path_segments[0].upper()  # Return the first segment as the service name, capitalized
+    return "UnknownService"  # Return a default if no service name is found
+
+
+# Recursive function to process Postman items and transform them
+def process_item(item, output, app_name, request_tracker={}, service_name=None, postman_data=None):
+    for sub_item in item:
+        # If the current item contains sub-items, recursively process them
+        if 'item' in sub_item:
+            current_service_name = sub_item.get('name',
+                                                service_name)  # Update service name from the current item's name
+            process_item(sub_item['item'], output, app_name, request_tracker=request_tracker, service_name=current_service_name,
+                         postman_data=postman_data)
+        else:
+            # Extract request details like headers, URL, method, etc.
+            request_data = sub_item.get('request', {})
+            headers = {header['key']: header['value'] for header in request_data.get('header', [])}  # Extract headers
+            url = request_data.get('url', {})
+            endpoint = url.get('raw', '')  # Extract the raw URL
+            method = request_data.get('method', '')  # Get the HTTP method
+
+            # Extract serviceName from the URL instead of using the item name
+            final_service_name = extract_service_name_from_url(endpoint)
+
+            # Default operationName setup (replace spaces with underscores)
+            final_operation_name = sub_item['name'].replace(' ', '_')
+
+            # Handle cases where the body is JSON
+            body = request_data.get('body', {})
+            if body and 'raw' in body:
+                raw_body = body['raw']
+                # Check if the body is JSON
+                if 'options' in body and body['options'].get('raw', {}).get('language') == 'json':
+                    parsed_url = urlparse(endpoint)
+                    path_segments = parsed_url.path.strip('/').split('/')
+                    if len(path_segments) >= 2:
+                        final_service_name = f"{path_segments[0]}_{path_segments[-2]}"  # e.g., cardsinqrestapiproxy_AccountTerms
+                        final_operation_name_base = f"{path_segments[-2]}_{path_segments[-1]}"  # operationName = AccountTerms_inquiry
+                        final_operation_name = final_operation_name_base
+
+                        # Handle multiple requests with the same operationName
+                        # Use both service_name and operation_name for tracking
+                        tracker_key = f"{final_service_name}_{final_operation_name_base}"
+                        if tracker_key in request_tracker:
+                            request_tracker[tracker_key] += 1
+                            final_operation_name = f"{final_operation_name_base}_{request_tracker[tracker_key]}"
+                        else:
+                            request_tracker[tracker_key] = 1
+
+                # Escape body content for safe JSON formatting
+                escaped_body = raw_body.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+
+            # Handle authentication
+            auth = request_data.get('auth', {})
+            if auth:
+                # Check if the authentication type is bearer
+                if auth.get('type') == 'bearer':
+                    bearer_token_info = auth.get('bearer', [{}])
+                    token = bearer_token_info[0].get('value', '')
+                    if token:
+                        headers['Authorization'] = f"Bearer {token}"  # Add bearer token to headers
+                # Check if the authentication type is basic
+                elif auth.get('type') == 'basic':
+                    basic_auth = auth.get('basic', [])
+                    username = ''
+                    password = ''
+                    for cred in basic_auth:
+                        if cred.get('key') == 'username':
+                            username = cred.get('value', '')
+                        elif cred.get('key') == 'password':
+                            password = cred.get('value', '')
+                    # If both username and password are found, encode them for Basic Auth
+                    if username and password:
+                        credentials = f"{username}:{password}"
+                        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+                        headers['Authorization'] = f"Basic {encoded_credentials}"  # Add Basic Auth to headers
+
+            # Include collection-level authentication if no request-level auth is present
+            if not headers.get('Authorization'):  # Check if Authorization is not already set
+                collection_auth = postman_data.get('auth', {})  # Get collection level auth
+                if collection_auth.get('type') == 'basic':
+                    basic_auth = collection_auth.get('basic', [])
+                    username = ''
+                    password = ''
+                    for cred in basic_auth:
+                        if cred.get('key') == 'username':
+                            username = cred.get('value', '')
+                        elif cred.get('key') == 'password':
+                            password = cred.get('value', '')
+                    # Set Authorization header with encoded credentials
+                    if username and password:
+                        credentials = f"{username}:{password}"
+                        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+                        headers['Authorization'] = f"Basic {encoded_credentials}"  # Set collection-level Basic Auth
+
+            # Set the sample request location to be unique per serviceName and operationName
+            # Add a number if the operation name has been seen before
+            request_count = request_tracker.get(f"{final_service_name}_{final_operation_name}", 0)
+            if request_count > 0:
+                # If this request has been seen, increment and modify the operation name
+                final_operation_name += f"_{request_count + 1}"
+            sample_request_location = f"{TRANSFORMED_FOLDER}/{app_name}/{final_service_name}/{final_operation_name}.txt"
+
+            entry = {
+                "serviceName": final_service_name,
+                "operationName": final_operation_name,
+                "useCase": f"Description of Use Case for {final_service_name}",
+                "successCriteria": "Success",  # Changed SuccessCriteria to Success
+                "endpoint": endpoint,
+                "sampleRequestLocation": sample_request_location,  # Dynamic filename for saving the request body
+                "sampleRequestText": "",  # Request body content for the JSON
+                "httpMethod": method,
+                "headers": headers  # Include the headers, including authorization
+            }
+
+            # If the request has a body, save it to file and update the entry
+            if body and 'raw' in body:
+                raw_body = body['raw']
+                file_path = sample_request_location #os.path.join(TRANSFORMED_FOLDER, sample_request_location)
+                print(TRANSFORMED_FOLDER)
+                print(sample_request_location)
+                print(file_path)
+                write_sample_request_to_file(file_path, raw_body)  # Save the request body to file
+                # Escape the body content for safe JSON formatting
+                escaped_body = raw_body.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+                #entry['sampleRequestLocation'] = file_path
+                entry['sampleRequestText'] = escaped_body  # Update the sample request text with the escaped body
+
+            # Update the tracker
+            request_tracker[
+                f"{final_service_name}_{final_operation_name}"] = request_count + 1  # Increment the request count for this operation
+
+            # Add the entry to the output
+            output["entries"].append(entry)  # Append the constructed entry to the output list
