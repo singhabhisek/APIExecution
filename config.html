@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        .modal-confirm {
+            text-align: center;
+            padding: 2em;
+        }
+
+        /* Datatable styling */
+        .table-scroll {
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        /* Aligning info icon with the text */
+        .info-icon {
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        /* Styling select dropdown to include arrow */
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="black"><path d="M4 6l4 4 4-4"/></svg>');
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1rem;
+        }
+
+        .tooltip-custom {
+            position: absolute;
+            z-index: 1;
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 0.875rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Execution Settings</h2>
+
+        <div class="form-group position-relative">
+            <label for="batch_size">
+                Batch Size:
+                <i class="bi bi-info-circle-fill info-icon" data-bs-toggle="tooltip" title="The number of records processed in a single batch."></i>
+            </label>
+            <input type="number" id="batch_size" min="1" class="form-control" placeholder="Enter batch size">
+        </div>
+
+        <div class="form-group position-relative mt-3">
+            <label for="allowed_operations_user">
+                Allowed Operations (User):
+                <i class="bi bi-info-circle-fill info-icon" data-bs-toggle="tooltip" title="The maximum number of operations a user can execute."></i>
+            </label>
+            <input type="number" id="allowed_operations_user" min="1" class="form-control" placeholder="Enter allowed operations for user">
+        </div>
+
+        <div class="form-group position-relative mt-3">
+            <label for="allowed_operations_admin">
+                Allowed Operations (Admin):
+                <i class="bi bi-info-circle-fill info-icon" data-bs-toggle="tooltip" title="The maximum number of operations an admin can execute."></i>
+            </label>
+            <input type="number" id="allowed_operations_admin" min="1" class="form-control" placeholder="Enter allowed operations for admin">
+        </div>
+
+        <button id="saveConfigBtn" class="btn btn-primary mt-3">Save Config</button>
+
+        <hr>
+
+        <h2>User Management</h2>
+        <button id="addUserBtn" class="btn btn-success">Add User</button>
+
+        <div class="table-scroll mt-3">
+            <table class="table table-striped" id="userTable">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Access Level</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Add/Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <div class="form-group">
+                            <label for="user_id">User ID</label>
+                            <input type="text" id="user_id" class="form-control" required>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="access_level">Access Level</label>
+                            <select id="access_level" class="form-control">
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveUserBtn" class="btn btn-primary">Save User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                        <p id="confirmationMessage" class="ms-3"></p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+
+    <script>
+        // Fetch config and populate fields
+        function fetchConfig() {
+            $.get('/api/get_config', function(data) {
+                $('#batch_size').val(data.batch_size);
+                $('#allowed_operations_user').val(data.allowed_operations_count_user);
+                $('#allowed_operations_admin').val(data.allowed_operations_count_admin);
+            });
+        }
+
+        // Save config
+        $('#saveConfigBtn').click(function() {
+            var batch_size = $('#batch_size').val();
+            var allowed_operations_user = $('#allowed_operations_user').val();
+            var allowed_operations_admin = $('#allowed_operations_admin').val();
+
+            $.ajax({
+                url: '/api/update_config',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    batch_size: batch_size,
+                    allowed_operations_count_user: allowed_operations_user,
+                    allowed_operations_count_admin: allowed_operations_admin
+                }),
+                success: function(response) {
+                    showConfirmationModal(response.message);
+                },
+                error: function() {
+                    showConfirmationModal('Error while saving config', 'error');
+                }
+            });
+        });
+
+        // Fetch and populate user table
+        function fetchUsers() {
+            $.get('/api/get_users', function(users) {
+                var userTable = $('#userTable tbody');
+                userTable.empty();
+
+                users.forEach(function(user) {
+                    userTable.append(`
+                        <tr>
+                            <td>${user.user_id}</td>
+                            <td>${user.access_level}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning edit-user" data-id="${user.user_id}" data-level="${user.access_level}">Edit</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            });
+
+            // Initialize DataTable
+            if ($.fn.DataTable.isDataTable('#userTable')) {
+                userTable.destroy();
+            }
+            userTable = $('#userTable').DataTable();
+        }
+
+        // Show modal for adding/editing user
+        $(document).on('click', '#addUserBtn, .edit-user', function() {
+            var user_id = $(this).data('id') || '';
+            var access_level = $(this).data('level') || 'user';
+
+            $('#user_id').val(user_id).prop('readonly', !!user_id);
+            $('#access_level').val(access_level);
+
+            $('#userModal').modal('show');
+        });
+
+        // Save user
+        $('#saveUserBtn').click(function() {
+            var user_id = $('#user_id').val();
+            var access_level = $('#access_level').val();
+
+            $.ajax({
+                url: '/api/save_user',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    user_id: user_id,
+                    access_level: access_level
+                }),
+                success: function(response) {
+                    $('#userModal').modal('hide');
+                    fetchUsers();
+                    showConfirmationModal(response.message);
+                },
+                error: function() {
+                    showConfirmationModal('Error while saving user', 'error');
+                }
+            });
+        });
+
+        // Show confirmation modal
+        function showConfirmationModal(message, type = 'success') {
+            var iconClass = type === 'success' ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger';
+            $('#confirmationMessage').html(`<i class="bi ${iconClass}"></i> ${message}`);
+            $('#confirmationModal').modal('show');
+        }
+
+        // Initialize tooltips
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+
+        // Fetch config and users on page load
+        $(document).ready(function() {
+            fetchConfig();
+            fetchUsers();
+        });
+    </script>
+</body>
+</html>
