@@ -1,0 +1,246 @@
+{
+    "entries": [
+        {
+            "serviceName": "UserVerification",
+            "operationName": "ValidateUser",
+            "useCase": "Description of Use Case for ValidateUser",
+            "successCriteria": "user",
+            "endpoint": "https://jsonplaceholder.typicode.com/posts/1",
+            "sampleRequestLocation": "",
+            "sampleRequestText": "",
+            "httpMethod": "GET",
+            "headers": {
+                "Header5": "aa",
+                "Header6": "",
+                "apiKey": "",
+                "customerId": ""
+            },
+            "clientCertificate": null
+        },
+        {
+            "serviceName": "PaymentProcessing",
+            "operationName": "ProcessPayment",
+            "useCase": "Handles payment processing",
+            "successCriteria": "payment",
+            "endpoint": "https://api.example.com/payments",
+            "httpMethod": "POST",
+            "headers": {
+                "Authorization": "Bearer sampleToken"
+            },
+            "clientCertificate": {
+                "certPath": "/path/to/payment_cert.pem",
+                "keyPath": "/path/to/payment_key.pem"
+            }
+        }
+    ]
+}
+
+=======================
+
+
+
+  import requests
+import json
+
+# Load the JSON configuration
+with open('config.json') as f:
+    config = json.load(f)
+
+def execute_operation(service_name, operation_name):
+    """
+    Executes a specific operation for a given service, using the appropriate client certificate if required.
+    """
+    # Find the matching entry in the JSON configuration
+    entry = next(
+        (e for e in config['entries'] if e['serviceName'] == service_name and e['operationName'] == operation_name),
+        None
+    )
+
+    if not entry:
+        print(f"No matching entry found for {service_name}::{operation_name}")
+        return
+
+    url = entry['endpoint']
+    method = entry['httpMethod']
+    headers = entry.get('headers', {})
+    cert_info = entry.get('clientCertificate')
+
+    # Prepare certificate if provided, else set to None
+    cert = (cert_info['certPath'], cert_info['keyPath']) if cert_info else None
+
+    try:
+        # Make the API call based on HTTP method
+        if method == "GET":
+            response = requests.get(url, headers=headers, cert=cert)
+        elif method == "POST":
+            sample_request_text = entry.get("sampleRequestText", "")
+            response = requests.post(url, headers=headers, cert=cert, data=sample_request_text)
+        else:
+            print(f"HTTP method {method} is not supported.")
+            return
+
+        # Print the response
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+
+# Example: Execute operations
+execute_operation("UserVerification", "ValidateUser")  # No certificate required
+execute_operation("PaymentProcessing", "ProcessPayment")  # Certificate required
+
+
+
+============================
+
+
+
+  import json
+import requests
+import time
+import xml.etree.ElementTree as ET
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Helper function to log errors (You can replace this with your actual logging mechanism)
+def log_error(message):
+    print(f"ERROR: {message}")
+
+# Helper function to log actions
+def log_action(action, message):
+    print(f"ACTION: {action} - {message}")
+
+@app.route('/execute', methods=['POST'])
+def execute():
+    try:
+        data = request.get_json()  # Parse JSON data from request
+        selected_services = data.get('services', [])
+        targetJson = data.get('targetJson', '')
+        iteration_count = int(data.get('iterationCount', 1))  # Default to 1 if not provided
+        iteration_count = min(iteration_count, 3)  # Ensure iteration_count is not greater than 3
+
+        delay_between_requests = float(data.get('delayBetweenRequests', 0.5))  # Delay between requests in seconds
+
+        # Load configuration from static.json
+        if not targetJson:
+            log_error("No target JSON config found!")
+            return jsonify({'status': 'error', 'message': 'No target JSON config found!'})
+
+        with open(targetJson) as f:
+            config = json.load(f)
+
+        # Populate services list from static
+        services = []
+        for entry in config['entries']:
+            services.append(entry['serviceName'])
+
+        if not selected_services:
+            log_action(action="Execution", message="No services selected.")
+            return jsonify({'status': 'error', 'message': 'No services selected!'})
+
+        # Log the execution request with the current user and services selected
+        log_action(action="Execution", message=f"Starting execution for {len(selected_services)} service(s): {selected_services}. Iterations: {iteration_count}")
+
+        result = {'status': 'success', 'responses': {}}
+        
+        for service in selected_services:
+            service_parts = service.split(':')  # Split ServiceName:OperationName into parts
+            if len(service_parts) != 2:
+                log_error(f"Invalid service format: {service}")
+                return jsonify({'status': 'error', 'message': 'Invalid service format: ' + service})
+
+            service_name, operation_name = service_parts  # Extract ServiceName and OperationName
+
+            responses = []
+            status_descriptions = []  # List to store response codes
+            overall_status = 'GREEN'  # Assume GREEN initially
+            passed_count = 0  # Counter for passed iterations
+            raw_requests = []  # List to store raw requests
+            
+            for entry in config['entries']:
+                if entry['serviceName'] == service_name and entry.get('operationName') == operation_name:  # Check both ServiceName and OperationName
+
+                    # Retrieve certificate info (if exists)
+                    cert_info = entry.get('clientCertificate')
+                    cert = None
+                    if cert_info:
+                        cert = (cert_info['certPath'], cert_info['keyPath'])
+
+                    method = entry.get('httpMethod', 'GET')  # Default to GET if not specified
+                    headers = entry.get('headers', {})
+
+                    for i in range(iteration_count):  # Perform iterations
+                        try:
+                            # Log the execution for each service and operation with URL and iteration
+                            log_action(action="Service Execution", service_name=service_name,
+                                       operation_name=operation_name, url=entry['endpoint'], iteration=i + 1)
+
+                            raw_request = {'method': method, 'url': entry['endpoint'], 'headers': headers}
+                            
+                            if method == 'POST':
+                                # Handle POST logic (similar to your current code)
+                                # Sample request logic for POST...
+                                pass
+                            else:
+                                start_time = time.time()
+                                # Make the request with or without client certificate
+                                if cert:
+                                    response = requests.get(entry['endpoint'], headers=headers, cert=cert)
+                                else:
+                                    response = requests.get(entry['endpoint'], headers=headers, verify=False)
+                                end_time = time.time()
+
+                            # Calculate response time
+                            response_time = end_time - start_time
+
+                            # Parse response to extract StatusCD and StatusDesc if available
+                            status_cd = None
+                            status_desc = None
+                            try:
+                                root = ET.fromstring(response.text)
+                                status_cd_element = root.find('.//StatusCD')
+                                status_cd = status_cd_element.text if status_cd_element is not None else ''
+                                
+                                status_desc_element = root.find('.//StatusDesc')
+                                status_desc = status_desc_element.text if status_desc_element is not None else ''
+                            except (ET.ParseError, AttributeError):
+                                try:
+                                    json_response = json.loads(response.text)
+                                    status_cd = json_response.get('StatusCD', '')
+                                    status_desc = json_response.get('StatusDesc', '')
+                                except (json.JSONDecodeError, AttributeError):
+                                    pass
+
+                            # Perform validation based on successCriteria or status code
+                            if response.text.strip():  # Check if response body is not empty
+                                iteration_status = 'PASS' if entry['successCriteria'] in response.text else 'FAIL'
+                                response_message = response.text
+                            else:
+                                if response.status_code == 201:
+                                    response_message = "It seems a create request, so no response text is available."
+                                    iteration_status = 'PASS'  # Assume success for 201 Created if no other validation fails
+                                elif 200 <= response.status_code < 300:
+                                    response_message = "No response returned from the server, but the status code indicates success."
+                                    iteration_status = 'PASS'
+                                else:
+                                    iteration_status = 'FAIL'
+                                    response_message = f"Failed with status code {response.status_code}"
+
+                            # Store the response data
+                            responses.append({'response': response_message, 'status': iteration_status, 'status_cd': status_cd, 'status_desc': status_desc, 'response_time': response_time})
+
+                        except Exception as e:
+                            log_error(f"Error during request execution: {e}")
+                            return jsonify({'status': 'error', 'message': f"Execution failed: {str(e)}"}), 500
+
+            result['responses'][service] = responses
+
+        return jsonify(result)
+    except Exception as e:
+        log_error(f"Unexpected error: {str(e)}")
+        return jsonify({'status': 'error', 'message': f"Unexpected error: {str(e)}"}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
