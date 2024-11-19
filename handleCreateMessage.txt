@@ -1,0 +1,45 @@
+
+                            # Perform validation based on successCriteria
+                            #iteration_status = 'PASS' if entry['successCriteria'] in response.text else 'FAIL'
+
+                            # Perform validation based on successCriteria or status code
+                            if response.text.strip():  # Check if response body is not empty
+                                iteration_status = 'PASS' if entry['successCriteria'] in response.text else 'FAIL'
+                                response_message = response.text
+                            else:
+                                # If no response body, check if status code is in the expected success range (e.g., 200-299)
+                                #iteration_status = 'PASS' if 200 <= response.status_code < 300 else 'FAIL'
+                                # Handle scenarios with no response body
+                                if response.status_code == 201:
+                                    response_message = "It seems a create request, so no response text is available."
+                                    iteration_status = 'PASS'  # Assume success for 201 Created if no other validation fails
+                                elif 200 <= response.status_code < 300:
+                                    response_message = "No response returned from the server, but the status code indicates success."
+                                    iteration_status = 'PASS'
+                                else:
+                                    response_message = "No response returned from the server."
+
+                            if iteration_status == 'PASS':
+                                passed_count += 1  # Increment passed count
+                            if overall_status != 'RED' and iteration_status == 'FAIL':
+                                overall_status = 'AMBER'  # Update overall_status if any iteration fails
+                            if overall_status != 'AMBER' and iteration_status == 'AMBER':
+                                overall_status = 'AMBER'  # Update overall_status if any iteration is AMBER
+                            if iteration_status == 'FAIL':
+                                overall_status = 'RED'  # Update overall_status if any iteration fails
+
+                            responses.append({'response': response_message, 'status': iteration_status, 'status_cd': status_cd, 'status_desc': status_desc, 'response_time': response_time})
+                            #response.text
+                            # Append response code and message to status_descriptions
+                            if iteration_status == 'FAIL':
+                                overall_status = 'AMBER'
+                                status_descriptions.append('200 - Business Exception')
+                            else:
+                                status_descriptions.append(f'{response.status_code} - {response.reason}')
+
+                            # Log service response status
+                            log_action("Service Execution", service_name, operation_name,
+                                       message=f"Status: {iteration_status}", iteration=i + 1)
+
+                            # Introduce delay between requests
+                            time.sleep(delay_between_requests)
